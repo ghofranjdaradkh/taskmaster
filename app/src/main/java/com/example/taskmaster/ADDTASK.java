@@ -21,13 +21,13 @@ public class ADDTASK extends AppCompatActivity {
         TextView addTask = findViewById(R.id.textBar);
         Toast toast = Toast.makeText(this, "submitted", LENGTH_SHORT);
         addTask.setOnClickListener(new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View view) {
-                                           Intent intent1 = new Intent(ADDTASK.this, MainActivity.class);
-                                           startActivity(intent1);
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(ADDTASK.this, MainActivity.class);
+                startActivity(intent1);
 
-                                           toast.show();
-                                       }
+                toast.show();
+            }
         });
 
 

@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         Button addTask = findViewById(R.id.ADDTASK);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,4 +33,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    }
+}
