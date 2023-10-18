@@ -32,5 +32,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+
+
+      Button  taskButton1 = findViewById(R.id.buttonsub1);
+
+      taskButton1.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Intent intentsub1=new Intent(MainActivity.this, TaskDetailPage.class);
+              startActivity(intentsub1);
+          }
+      });
+
+        Button taskButton2 = findViewById(R.id.buttonsub2);
+taskButton2.setOnClickListener(new View.OnClickListener(){
+
+        @Override
+        public void onClick(View view) {
+            Intent intentsub2=new Intent(MainActivity.this, TaskDetailPage.class);
+            startActivity(intentsub2);
+        }
+    });
+
+        Button taskButton3 = findViewById(R.id.buttonsub3);
+        taskButton3.setOnClickListener(new View.OnClickListener(){
+    @Override
+    public void onClick(View view) {
+        Intent intentsub3=new Intent(MainActivity.this, TaskDetailPage.class);
+        startActivity(intentsub3);
+    }
+});
+Button setting =findViewById(R.id.settingID);
+setting.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intentsetting=new Intent(MainActivity.this, SettingsPage.class);
+        startActivity(intentsetting);
+    }
+
+});
+
     }
 }
