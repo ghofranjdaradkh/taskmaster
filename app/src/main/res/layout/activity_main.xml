@@ -37,23 +37,11 @@
         android:text="My Tasks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.086"
+        app:layout_constraintVertical_bias="0.056"
         tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428"
-        app:srcCompat="@drawable/app" />
 
     <TextView
         android:id="@+id/textView"
@@ -62,8 +50,61 @@
         android:background="@color/design_default_color_secondary"
         android:text="TaskMaster"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="1dp" />
+        tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/buttonsub1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="20dp"
+        android:text="subject1"
+        app:layout_constraintEnd_toStartOf="@+id/buttonsub2"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/buttonsub2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="32dp"
+        android:text="subject2"
+        app:layout_constraintEnd_toStartOf="@+id/buttonsub3"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/buttonsub3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="28dp"
+        android:text="subject3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsub2"
+        app:srcCompat="@drawable/tasks" />
+
+    <Button
+        android:id="@+id/settingID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="304dp"
+        android:layout_marginTop="12dp"
+        android:text="Setting"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
