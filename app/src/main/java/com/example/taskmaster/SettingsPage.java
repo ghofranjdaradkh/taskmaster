@@ -58,33 +58,7 @@ PreferenceEditor.apply();
 
     }
 
-        //TODO: step 2-2: Make some data items
-        List<Product> products = new ArrayList<>();
-
-        products.add(new Product("Pens"));
-        products.add(new Product("Pencils"));
-        products.add(new Product("Binders"));
-        products.add(new Product("Mice"));
-        products.add(new Product("Keyboard"));
-        products.add(new Product("Flash Drives"));
-        products.add(new Product("Monitors"));
-        products.add(new Product("Printer"));
-        products.add(new Product("Mouse"));
-        products.add(new Product("HeadSet"));
-        products.add(new Product("Tape"));
-        products.add(new Product("HeadSet Holder"));
-        products.add(new Product("HeadSet Holder"));
-        products.add(new Product("HeadSet Holder"));
-        products.add(new Product("HeadSet Holder"));
-
-        //TODO: step 1-5: create and attach the RecyclerView.Adapter
-        //TODO: step 2-3: Hand in data items
-        //TODO: step 3-2: Hand in the Activity context
-        ViewAdapter adapter = new ViewAdapter(products, this);
-        productListRecyclerView.setAdapter(adapter);
-
 
     }
-}
 
-}
+
