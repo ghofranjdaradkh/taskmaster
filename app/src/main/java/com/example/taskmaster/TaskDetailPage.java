@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 public class TaskDetailPage extends AppCompatActivity {
 
@@ -14,8 +15,11 @@ public class TaskDetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail_page);
 
-
-        TextView addTask = findViewById(R.id.textBar2);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        toolbar.setTitle("taskMaster");
+        setSupportActionBar(toolbar);
+    }
+        TextView addTask = findViewById(R.id.textBar);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -23,4 +27,4 @@ public class TaskDetailPage extends AppCompatActivity {
                 startActivity(intentSE);
             }
         });
-    }}
+    }

@@ -9,6 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.taskmaster.Adapter.ViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -77,7 +82,17 @@ setting.setOnClickListener(new View.OnClickListener() {
     }
 
     RecyclerView recyclerView = findViewById(R.id.recyclerView);
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
- RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-recyclerView.setLayoutManager(layoutManager);
+    List<Task> taskList = new ArrayList<>();
 
+        taskList.add(new void Task("Task 1", "Description for Task 1",TaskState.NEW));
+        taskList.add(new void Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
+        taskList.add(new void Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
+        taskList.add(new void Task("Task 4", "Description for Task 4",TaskState.NEW));
+        taskList.add(new void Task("Task 5", "Description for Task 5",TaskState.COMPLETED));
+
+    ViewAdapter adapter = new ViewAdapter(taskList, this);
+        recyclerView.setAdapter(adapter);
+}

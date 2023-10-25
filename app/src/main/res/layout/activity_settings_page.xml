@@ -8,18 +8,6 @@
     tools:context=".SettingsPage">
 
 
-    <TextView
-        android:id="@+id/textBar2"
-        android:layout_width="401dp"
-        android:layout_height="63dp"
-        android:background="@color/design_default_color_secondary"
-        android:text="TaskMaster"
-        app:layout_constraintBottom_toTopOf="@+id/editTextUserName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.033"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="6dp" />
-
     <EditText
         android:id="@+id/editTextUserName"
         android:layout_width="207dp"
@@ -52,8 +40,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Button"
+        android:text="save"
         app:layout_constraintTop_toBottomOf="@+id/editTextUserName"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="52dp" />
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="3dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

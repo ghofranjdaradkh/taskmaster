@@ -13,10 +13,10 @@
         android:text="ADD TASK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.673" />
+        app:layout_constraintVertical_bias="0.767" />
 
     <Button
         android:id="@+id/ALLTASKS"
@@ -28,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.673" />
+        app:layout_constraintVertical_bias="0.767" />
 
     <TextView
         android:id="@+id/textView2"
@@ -50,10 +50,10 @@
         android:background="@color/design_default_color_secondary"
         android:text="TaskMaster"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="-1dp" />
 
     <Button
         android:id="@+id/buttonsub1"
@@ -86,17 +86,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <ImageButton
-        android:id="@+id/imageButton6"
-        android:layout_width="294dp"
-        android:layout_height="227dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsub2"
-        app:srcCompat="@drawable/tasks" />
-
     <Button
         android:id="@+id/settingID"
         android:layout_width="wrap_content"
@@ -112,7 +101,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="409dp"
         android:layout_height="221dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="509dp" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="224dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
