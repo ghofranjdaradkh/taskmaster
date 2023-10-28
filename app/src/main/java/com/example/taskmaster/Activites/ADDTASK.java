@@ -1,4 +1,4 @@
-package com.example.taskmaster;
+package com.example.taskmaster.Activites;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.taskmaster.R;
 
 public class ADDTASK extends AppCompatActivity {
 

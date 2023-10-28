@@ -13,19 +13,19 @@
         android:theme="@style/Theme.Taskmaster"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsPage"
+            android:name=".Activites.SettingsPage"
             android:exported="false" />
         <activity
-            android:name=".TaskDetailPage"
+            android:name=".Activites.TaskDetailPage"
             android:exported="false" />
         <activity
-            android:name=".ALLTASKS"
+            android:name=".Activites.ALLTASKS"
             android:exported="false" />
         <activity
-            android:name=".ADDTASK"
+            android:name=".Activites.ADDTASK"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activites.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
