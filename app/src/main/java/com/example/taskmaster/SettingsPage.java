@@ -11,9 +11,11 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
-import com.example.taskmaster.Adapter.ViewAdapter;
+//import com.example.taskmaster.Adapter.ViewAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -27,12 +29,14 @@ SharedPreferences sharedPreferences;
         setContentView(R.layout.activity_settings_page);
 
 
-        TextView addTask = findViewById(R.id.textBar2);
-        addTask.setOnClickListener(new View.OnClickListener() {
+
+        ImageView imageView=findViewById(R.id.arrowImageSetting);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(SettingsPage.this, MainActivity.class);
-                startActivity(intent1);
+                Intent intentArrow = new Intent(SettingsPage.this, MainActivity.class);
+                startActivity(intentArrow);
+
             }
         });
 
