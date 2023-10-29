@@ -11,25 +11,28 @@
 
     <TextView
         android:id="@+id/fragmentTextView"
-        android:layout_width="400dp"
-        android:layout_height="53dp"
+        android:layout_width="300dp"
+        android:layout_height="36dp"
         android:text="@string/hello_blank_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/StateFragment"
-        android:layout_width="445dp"
-        android:layout_height="259dp"
+        android:layout_width="326dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:gravity="start"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/textviewfragment"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/fragmentTextView"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="55dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
