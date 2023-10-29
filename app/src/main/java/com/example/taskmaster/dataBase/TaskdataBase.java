@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.example.taskmaster.DAO.TaskDAO;
-import com.example.taskmaster.Task;
+import com.example.taskmaster.model.Task;
 
 @Database(entities = {Task.class},version = 1)
 @TypeConverters(TaskConverter.class)

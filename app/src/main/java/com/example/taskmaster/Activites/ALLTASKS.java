@@ -1,4 +1,4 @@
-package com.example.taskmaster;
+package com.example.taskmaster.Activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.taskmaster.R;
 
 public class ALLTASKS extends AppCompatActivity {
 

@@ -14,6 +14,9 @@ task details that shows the task name and discription
 Main page :
 ![Alt text](screenshots/mainpage1.PNG)
 
+## update the main page to view list by recycle view (with new classes adapter and fragment)
+
+![Alt text](screenshots/mainwithrecycle.PNG)
 
 Addtask page :
 allow users to type in details about a new task

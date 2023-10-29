@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activites.MainActivity">
 
     <Button
         android:id="@+id/ADDTASK"
@@ -13,22 +13,22 @@
         android:text="@string/add_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewId"
+        app:layout_constraintVertical_bias="0.622" />
 
     <Button
         android:id="@+id/ALLTASKS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ALL TASK"
+        android:text="@string/all_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.969"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toEndOf="@+id/ADDTASK"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewId"
+        app:layout_constraintVertical_bias="0.622" />
 
     <TextView
         android:id="@+id/textView2"
@@ -48,33 +48,36 @@
         android:id="@+id/buttonsub1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="40dp"
-        android:text="subject1"
-        app:layout_constraintEnd_toStartOf="@+id/buttonsub2"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        android:layout_marginTop="148dp"
+        android:text="@string/subject1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/buttonsub2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="44dp"
-        android:text="subject2"
-        app:layout_constraintEnd_toStartOf="@+id/buttonsub3"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        android:layout_marginTop="148dp"
+        android:text="@string/subject2"
+        app:layout_constraintEnd_toStartOf="@id/buttonsub3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/buttonsub1"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/buttonsub3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="16dp"
-        android:text="subject3"
+        android:layout_marginTop="148dp"
+        android:text="@string/subject3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@id/buttonsub2"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -82,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/your_user_name"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintBottom_toTopOf="@+id/buttonsub2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.068"
@@ -93,15 +96,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="315dp"
-        android:layout_height="271dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/ALLTASKS"
+        android:layout_width="245dp"
+        android:layout_height="57dp"
+        android:contentDescription="@string/imageview"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsub2"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsub1"
+        app:layout_constraintVertical_bias="0.755"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         app:srcCompat="@drawable/_661253918_tasks__1_" />
 
     <androidx.appcompat.widget.Toolbar
@@ -114,6 +118,17 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="3dp" />
+
+    <TextView
+        android:id="@+id/toolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:text="TaskMaster"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/settingID"
@@ -129,6 +144,19 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="16dp" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewId"
+        android:layout_width="464dp"
+        android:layout_height="225dp"
+        android:background="@android:color/holo_purple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.784"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
