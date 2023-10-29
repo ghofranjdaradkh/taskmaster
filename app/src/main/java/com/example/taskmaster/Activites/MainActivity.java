@@ -3,7 +3,9 @@ package com.example.taskmaster.Activites;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.example.taskmaster.Adapter.ViewAdapter;
 import com.example.taskmaster.R;
 import com.example.taskmaster.TaskState;
+import com.example.taskmaster.dataBase.TaskdataBase;
 import com.example.taskmaster.model.Task;
 
 import java.util.ArrayList;
@@ -25,14 +28,24 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
-    public static final String PRODUCT_NAME_EXTRA_TAG="productName";
+    public static final String DATABASE_NAME="NAME";
+    TaskdataBase taskdataBase;
+    List<Task> TASKS=null;
+
+    List<Task> taskList = new ArrayList<>();
+    ViewAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRecyclerViewList();
 
 
         Button addTask = findViewById(R.id.ADDTASK);
+
+
+
+
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
 
     protected void onResume() {
@@ -110,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
         String username = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
 
         ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, username));
+        if (taskdataBase != null) {
+            List<Task> updatedTaskList = taskdataBase.TaskDAO().findAll();
+            if (taskList != null) {
+                taskList.clear();
+                taskList.addAll(updatedTaskList);
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
 
@@ -125,19 +149,21 @@ private void setRecyclerViewList(){
     //set the LayoutManager
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
+    taskdataBase = Room.databaseBuilder(getApplicationContext(), TaskdataBase.class, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries().build();
+    List<Task> tasks = taskdataBase.TaskDAO().findAll();
 
-    List<Task> taskList = new ArrayList<>();
-
-    taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
-    taskList.add(new  Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
-    taskList.add(new  Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
-    taskList.add(new  Task("Task 4", "Description for Task 4",TaskState.NEW));
-    taskList.add(new  Task("Task 5", "Description for Task 5",TaskState.COMPLETED));
-    //set adapter
-    Log.d("ViewAdapter", "Number of items in taskList: " + taskList.size());
-
-    ViewAdapter adapter= new ViewAdapter(taskList,this);
+    adapter= new ViewAdapter(taskList,this);
     recyclerView.setAdapter(adapter);
+//
+//    taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
+//    taskList.add(new  Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
+//    taskList.add(new  Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
+//    taskList.add(new  Task("Task 4", "Description for Task 4",TaskState.NEW));
+//    taskList.add(new  Task("Task 5", "Description for Task 5",TaskState.COMPLETED));
+    //set adapter
+
 
 
 

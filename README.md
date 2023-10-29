@@ -11,15 +11,28 @@ task details that shows the task name and discription
 -------------------------------------------------------------------
 
 
-Main page :
+# Main page :
 ![Alt text](screenshots/mainpage1.PNG)
 
+ # main page with recycle view :
+![Alt text](screenshots/mainwithrecycleviewedit.PNG)
 
-Addtask page :
+
+# main page with dataBase :
+![Alt text](screenshots/mainwithdatabase.PNG)
+
+# database :
+![Alt text](screenshots/database.PNG)
+
+-----------------------------------------------------------------
+# Addtask page :
 allow users to type in details about a new task
 ![Alt text](screenshots/addTask.PNG)
 
+ # Add task with spinner :
+![Alt text](screenshots/addwithspinner.PNG)
 
+-------------------------------------------------------------------
 alltasks page :
 ![Alt text](screenshots/alltasks.PNG)
 
