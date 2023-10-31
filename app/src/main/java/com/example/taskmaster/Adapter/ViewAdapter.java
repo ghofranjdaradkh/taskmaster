@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.viewholderlist> {
 List<Task> taskList;
 Context callingActivity;
+    private OnItemClickListener onItemClickListener;
     public ViewAdapter(List<Task> taskList,Context callingActivity) {
         this.taskList = taskList;
         this.callingActivity=callingActivity;
@@ -42,25 +44,46 @@ Context callingActivity;
         TextView fragmentTextView = holder.itemView.findViewById(R.id.fragmentTextView);
         TextView textviewState = holder.itemView.findViewById(R.id.StateFragment);
 
+
+
         Task task = taskList.get(position);
         String taskTitle = task.getTitle();
-        fragmentTextView.setText((position + 1) + ". " + taskTitle);
+        fragmentTextView.setText((position + 1) + ". " +task.getBody()+  "\n"+ task.getTitle());
+        String taskBody = task.getBody();
 
         TaskState taskState = task.getState();
         textviewState.setText("State: " + taskState.toString());
-//make it clickable
+
+
         View listViewHolder = holder.itemView;
+        //make it clickable
         listViewHolder.setOnClickListener(view -> {
             Intent goToTaskDetailsIntent = new Intent(callingActivity, TaskDetailPage.class);
-            goToTaskDetailsIntent.putExtra("TaskTitle", taskTitle);
+            goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
+            goToTaskDetailsIntent.putExtra("taskBody", taskBody);
+            goToTaskDetailsIntent.putExtra("taskState", taskState.toString());
             callingActivity.startActivity(goToTaskDetailsIntent);
-        });
-    }
+
+
+        });}
 
 
     @Override
     public int getItemCount() {
         return taskList.size();
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    }
+
+    public interface OnItemClickListener {
+
+
+        void onItemClick(int position);
     }
 
     public static class  viewholderlist extends RecyclerView.ViewHolder {

@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setRecyclerViewList();
 
 
+        setRecyclerViewList();
         Button addTask = findViewById(R.id.ADDTASK);
 
 
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+
         String username = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
 
         ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, username));
@@ -138,11 +140,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void ShowTaskDetailPage(String taskTitle) {
-        Intent gotToTaskDetails = new Intent(this, TaskDetailPage.class);
-        gotToTaskDetails.putExtra("TaskTitle", taskTitle);
-        startActivity(gotToTaskDetails);
-    }
+ private void ShowTaskDetailPage(String taskTitle ,String taskBody) {
+    Intent gotToTaskDetails = new Intent(this, TaskDetailPage.class);
+  gotToTaskDetails.putExtra("TaskTitle", taskTitle);
+ gotToTaskDetails.putExtra("taskBody",taskBody);
+    startActivity(gotToTaskDetails);
+ }
 private void setRecyclerViewList(){
 
     RecyclerView recyclerView =(RecyclerView) findViewById(R.id.recyclerViewId);

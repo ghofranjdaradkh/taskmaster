@@ -2,6 +2,7 @@ package com.example.taskmaster.Activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,20 +19,31 @@ public class TaskDetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail_page);
 
+
+    }
+
+
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         TextView titleTextView = findViewById(R.id.titleTextView);
         TextView descriptionTextView = findViewById(R.id.descriptionTextView);
         ImageView imageView = findViewById(R.id.arrowImage);
-
         Intent intent = getIntent();
         if (intent != null) {
-            String buttonTitle = intent.getStringExtra("buttonTitle");
-            String description = intent.getStringExtra("description");
+            String taskTitle = intent.getStringExtra("taskTitle");
+            String taskBody=intent.getStringExtra("taskBody");
+            String taskState = intent.getStringExtra("taskState");
 
-            if (buttonTitle != null && description != null) {
-                titleTextView.setText(buttonTitle);
-                descriptionTextView.setText(description);
+            if (taskTitle != null && taskState != null) {
+                titleTextView.setText(taskBody+"\n"+taskTitle +"\n");
+//                titleTextView.setText(taskBody);
+            descriptionTextView.setText(taskState);
             } else {
-                Log.e("TaskDetailPage", "buttonTitle or description is null");
+                Log.e("TaskDetailPage", "Title or state is null");
             }
         } else {
             Log.e("TaskDetailPage", "Intent is null");
@@ -44,5 +56,4 @@ public class TaskDetailPage extends AppCompatActivity {
                 startActivity(intentArrow);
             }
         });
-    }
-}
+    }}
