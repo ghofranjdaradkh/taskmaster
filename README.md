@@ -14,8 +14,12 @@ task details that shows the task name and discription
 # Main page :
 ![Alt text](screenshots/mainpage1.PNG)
 
+
  # main page with recycle view :
 ![Alt text](screenshots/mainwithrecycleviewedit.PNG)
+
+
+
 
 
 # main page with dataBase :
