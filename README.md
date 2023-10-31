@@ -19,7 +19,7 @@ task details that shows the task name and discription
 
 
 # main page with dataBase :
-![Alt text](screenshots/mainwithdatabase.PNG)
+![Alt text](screenshots/newMain.PNG)
 
 # database :
 ![Alt text](screenshots/database.PNG)
@@ -42,4 +42,8 @@ setting page :
 
 task details :
 ![Alt text](screenshots/taskdetails1.PNG)
+
+task details with database :
+![Alt text](screenshots/detailsnew.PNG)
+
 

@@ -6,30 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".Activites.TaskDetailPage">
 
+
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_width="341dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="120dp"
+        android:background="@color/design_default_color_primary"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Title"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/descriptionTextView"
-        android:layout_width="329dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="104dp"
+        android:layout_width="205dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp"
+        android:background="@android:color/holo_orange_light"
+        android:gravity="center_vertical|center_horizontal"
         android:text="@string/lorem_ipsum_description_goes_here"
-        android:textColor="@android:color/black"
-
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-        app:layout_constraintVertical_bias="0.206"
+        app:layout_constraintTop_toTopOf="@+id/titleTextView"
+        app:layout_constraintVertical_bias="0.18"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.Toolbar

@@ -1,0 +1,46 @@
+Index: app/src/main/java/com/example/taskmaster/Adapter/ViewAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.taskmaster.Adapter;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.taskmaster.Activites.TaskDetailPage;\r\nimport com.example.taskmaster.R; // Import your R class\r\nimport com.example.taskmaster.TaskState;\r\nimport com.example.taskmaster.model.Task;\r\n\r\nimport java.util.List;\r\n\r\n\r\npublic class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.viewholderlist> {\r\nList<Task> taskList;\r\nContext callingActivity;\r\n    public ViewAdapter(List<Task> taskList,Context callingActivity) {\r\n        this.taskList = taskList;\r\n        this.callingActivity=callingActivity;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public viewholderlist onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n//to display the layout fragment\r\n        View taskFragment=LayoutInflater.from(parent.getContext()).inflate(R.layout.task_fragment,parent,false);\r\n        return new viewholderlist(taskFragment);\r\n    }\r\n\r\n    @SuppressLint(\"SetTextI18n\")\r\n    @Override\r\n    public void onBindViewHolder(@NonNull viewholderlist holder, int position) {\r\n        //retrive\r\n        TextView fragmentTextView = holder.itemView.findViewById(R.id.fragmentTextView);\r\n        TextView textviewState = holder.itemView.findViewById(R.id.StateFragment);\r\n\r\n        Task task = taskList.get(position);\r\n        String taskTitle = task.getTitle();\r\n        fragmentTextView.setText((position + 1) + \". \" + taskTitle);\r\n\r\n        TaskState taskState = task.getState();\r\n        textviewState.setText(\"State: \" + taskState.toString());\r\n//make it clickable\r\n        View listViewHolder = holder.itemView;\r\n        listViewHolder.setOnClickListener(view -> {\r\n            Intent goToTaskDetailsIntent = new Intent(callingActivity, TaskDetailPage.class);\r\n            goToTaskDetailsIntent.putExtra(\"TaskTitle\", taskTitle);\r\n            callingActivity.startActivity(goToTaskDetailsIntent);\r\n        });\r\n    }\r\n\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return taskList.size();\r\n    }\r\n\r\n    public static class  viewholderlist extends RecyclerView.ViewHolder {\r\n\r\n        public viewholderlist(@NonNull View itemView) {\r\n            super(itemView);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/taskmaster/Adapter/ViewAdapter.java b/app/src/main/java/com/example/taskmaster/Adapter/ViewAdapter.java
+--- a/app/src/main/java/com/example/taskmaster/Adapter/ViewAdapter.java	
++++ b/app/src/main/java/com/example/taskmaster/Adapter/ViewAdapter.java	
+@@ -6,6 +6,7 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.AdapterView;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -22,6 +23,7 @@
+ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.viewholderlist> {
+ List<Task> taskList;
+ Context callingActivity;
++    private OnItemClickListener onItemClickListener;
+     public ViewAdapter(List<Task> taskList,Context callingActivity) {
+         this.taskList = taskList;
+         this.callingActivity=callingActivity;
+@@ -63,6 +65,19 @@
+         return taskList.size();
+     }
+ 
++    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
++
++    }
++
++    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
++    }
++
++    public interface OnItemClickListener {
++
++
++        void onItemClick(int position);
++    }
++
+     public static class  viewholderlist extends RecyclerView.ViewHolder {
+ 
+         public viewholderlist(@NonNull View itemView) {
