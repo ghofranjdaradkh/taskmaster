@@ -23,8 +23,11 @@ when the user click on the task it appear new page that show the details of this
 # Espresso Testing :
 Add three Espresso tests 
 ### ADDTASKTest
+![Alt text](screenshots/TEST.PNG)
 ### MainActivitysettingTest
+![Alt text](screenshots/TSET.PNG)
 ### taskdetailsTest
+![Alt text](screenshots/TSET3.PNG)
 
 
 -------------------------------------------------------------------
