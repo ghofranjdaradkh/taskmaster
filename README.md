@@ -7,6 +7,26 @@ show task details
 setting page that can save user name and shows it in the main page 
 task details that shows the task name and discription 
 
+
+## Activites :
+Main activity :
+it have some buttons (add task , all task , setting)
+and it  show the tasks that added in the data base
+ADD Tasks :
+it will make the user add tasks and descriptions and the status of this task then it will save in the database
+setting page :
+it make the user save his name and the appear in the main page
+task details:
+when the user click on the task it appear new page that show the details of this task
+
+
+# Espresso Testing :
+Add three Espresso tests 
+### ADDTASKTest
+### MainActivitysettingTest
+### taskdetailsTest
+
+
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 
@@ -49,5 +69,9 @@ task details :
 
 task details with database :
 ![Alt text](screenshots/detailsnew.PNG)
+
+
+----------------------------------------------
+
 
 
