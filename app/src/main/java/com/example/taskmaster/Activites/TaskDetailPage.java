@@ -40,7 +40,7 @@ public class TaskDetailPage extends AppCompatActivity {
 
             if (taskTitle != null && taskState != null) {
                 titleTextView.setText(taskBody+"\n"+taskTitle +"\n");
-//                titleTextView.setText(taskBody);
+
             descriptionTextView.setText(taskState);
             } else {
                 Log.e("TaskDetailPage", "Title or state is null");

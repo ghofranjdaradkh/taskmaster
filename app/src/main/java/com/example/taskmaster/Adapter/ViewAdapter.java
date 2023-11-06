@@ -23,7 +23,7 @@ import java.util.List;
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.viewholderlist> {
 List<Task> taskList;
 Context callingActivity;
-    private OnItemClickListener onItemClickListener;
+
     public ViewAdapter(List<Task> taskList,Context callingActivity) {
         this.taskList = taskList;
         this.callingActivity=callingActivity;
@@ -73,12 +73,9 @@ Context callingActivity;
         return taskList.size();
     }
 
-    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
 
-    }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-    }
+
 
     public interface OnItemClickListener {
 

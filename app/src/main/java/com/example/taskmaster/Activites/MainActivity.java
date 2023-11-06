@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     public static final String DATABASE_NAME="NAME";
     TaskdataBase taskdataBase;
-    List<Task> TASKS=null;
-
     List<Task> taskList = new ArrayList<>();
     ViewAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setRecyclerViewList();
 
 
-        setRecyclerViewList();
+
         Button addTask = findViewById(R.id.ADDTASK);
-
-
-
-
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -121,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String username = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
 
@@ -140,12 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
- private void ShowTaskDetailPage(String taskTitle ,String taskBody) {
-    Intent gotToTaskDetails = new Intent(this, TaskDetailPage.class);
-  gotToTaskDetails.putExtra("TaskTitle", taskTitle);
- gotToTaskDetails.putExtra("taskBody",taskBody);
-    startActivity(gotToTaskDetails);
- }
 private void setRecyclerViewList(){
 
     RecyclerView recyclerView =(RecyclerView) findViewById(R.id.recyclerViewId);
@@ -155,17 +145,17 @@ private void setRecyclerViewList(){
     taskdataBase = Room.databaseBuilder(getApplicationContext(), TaskdataBase.class, DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries().build();
-    List<Task> tasks = taskdataBase.TaskDAO().findAll();
+
 
     adapter= new ViewAdapter(taskList,this);
     recyclerView.setAdapter(adapter);
-//
+
 //    taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
 //    taskList.add(new  Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
 //    taskList.add(new  Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
 //    taskList.add(new  Task("Task 4", "Description for Task 4",TaskState.NEW));
 //    taskList.add(new  Task("Task 5", "Description for Task 5",TaskState.COMPLETED));
-    //set adapter
+
 
 
 
