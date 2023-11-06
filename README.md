@@ -53,24 +53,24 @@ Add three Espresso tests
 
 -----------------------------------------------------------------
 # Addtask page :
-allow users to type in details about a new task
+
 ![Alt text](screenshots/addTask.PNG)
 
  # Add task with spinner :
 ![Alt text](screenshots/addwithspinner.PNG)
 
 -------------------------------------------------------------------
-alltasks page :
+# alltasks page :
 ![Alt text](screenshots/alltasks.PNG)
-
-setting page :
+-------------------------------------------------------------------
+# setting page :
 ![Alt text](screenshots/setting1.PNG)
 
-
-task details :
+------------------------------------------------------------------
+# task details :
 ![Alt text](screenshots/taskdetails1.PNG)
 
-task details with database :
+# task details with database :
 ![Alt text](screenshots/detailsnew.PNG)
 
 
