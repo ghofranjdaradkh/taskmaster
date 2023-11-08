@@ -5,7 +5,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.taskmaster.Activites.MainActivity.DATABASE_NAME;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,13 +19,13 @@ import android.widget.Toast;
 
 import com.example.taskmaster.R;
 import com.example.taskmaster.TaskState;
-import com.example.taskmaster.dataBase.TaskdataBase;
+//import com.example.taskmaster.dataBase.TaskdataBase;
 import com.example.taskmaster.model.Task;
 
 import java.util.List;
 
 public class ADDTASK extends AppCompatActivity {
-TaskdataBase taskdataBase;
+//TaskdataBase taskdataBase;
     List<Task> TASKS=null;
     public static final String DATABASE_NAME="NAME";
     @Override
@@ -38,14 +37,14 @@ TaskdataBase taskdataBase;
 
 
         //create and setup the database
-        taskdataBase = Room.databaseBuilder(
-                        getApplicationContext(),
-                        TaskdataBase.class,
-                        DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
-        TASKS= taskdataBase.TaskDAO().findAll();
+//        taskdataBase = Room.databaseBuilder(
+//                        getApplicationContext(),
+//                        TaskdataBase.class,
+//                        DATABASE_NAME)
+//                .fallbackToDestructiveMigration()
+//                .allowMainThreadQueries()
+//                .build();
+//        TASKS= taskdataBase.TaskDAO().findAll();
 
 
 
@@ -86,7 +85,7 @@ TaskdataBase taskdataBase;
                         ((EditText) findViewById(R.id.taskTitle)).getText().toString(),
                         ((EditText) findViewById(R.id.editTextdescription)).getText().toString(),
                         TaskState.fromString(spinnerlist.getSelectedItem().toString()));
-                taskdataBase.TaskDAO().insertTask(task);
+//                taskdataBase.TaskDAO().insertTask(task);
                 toast.show();
                 startActivity(goToMainActivity);
             }
