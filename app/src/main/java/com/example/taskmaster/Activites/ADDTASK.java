@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,23 +18,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 import com.example.taskmaster.R;
 import com.example.taskmaster.TaskState;
 //import com.example.taskmaster.dataBase.TaskdataBase;
-import com.example.taskmaster.model.Task;
+
 
 import java.util.List;
 
 public class ADDTASK extends AppCompatActivity {
-//TaskdataBase taskdataBase;
-    List<Task> TASKS=null;
-    public static final String DATABASE_NAME="NAME";
+    //TaskdataBase taskdataBase;
+    List<Task> TASKS = null;
+    public static final String TAG = "AddTaskActivity";
+    public static final String DATABASE_NAME = "NAME";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
-
-
 
 
         //create and setup the database
@@ -47,8 +51,7 @@ public class ADDTASK extends AppCompatActivity {
 //        TASKS= taskdataBase.TaskDAO().findAll();
 
 
-
-        Spinner spinnerlist=findViewById(R.id.spinnerlsitforState);
+        Spinner spinnerlist = findViewById(R.id.spinnerlsitforState);
         spinnerlist.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -72,36 +75,57 @@ public class ADDTASK extends AppCompatActivity {
         });
 
 
-
-
         Button submitButton = findViewById(R.id.submitButton);
-        Intent goToMainActivity = new Intent(this,MainActivity.class);
+        Intent goToMainActivity = new Intent(this, MainActivity.class);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(ADDTASK.this, "Submitted!", Toast.LENGTH_SHORT).show();
 
-                Task task = new Task(
-                        ((EditText) findViewById(R.id.taskTitle)).getText().toString(),
-                        ((EditText) findViewById(R.id.editTextdescription)).getText().toString(),
-                        TaskState.fromString(spinnerlist.getSelectedItem().toString()));
-//                taskdataBase.TaskDAO().insertTask(task);
-                toast.show();
-                startActivity(goToMainActivity);
-            }
-        });
+                // Update the add task to add to DynamoDB
+                // 1. Retrieve task details
+                String taskTitle = ((EditText) findViewById(R.id.taskTitle)).getText().toString();
+                String taskDescription = ((EditText) findViewById(R.id.editTextdescription)).getText().toString();
+                String spinnerValue = spinnerlist.getSelectedItem().toString();
 
 
-        ImageView imageView=findViewById(R.id.arrowImage2);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentArrow = new Intent(ADDTASK.this, MainActivity.class);
-                startActivity(intentArrow);
+                String enumValue = spinnerValue.toUpperCase();
 
+                // 2. Create a Task object using Amplify DataStore model
+                Task task = Task.builder()
+                        .name(taskTitle)
+                        .description(taskDescription)
+                        .state(com.amplifyframework.datastore.generated.model.TaskState.valueOf(enumValue))
+                        .build();
+
+                // 3. Use Amplify to mutate (create) the Task in DynamoDB
+                Amplify.API.mutate(
+                        ModelMutation.create(task),
+                        successResponse -> {
+                            Log.i(TAG, "Task saved successfully");
+                            runOnUiThread(() -> {
+                                Toast.makeText(ADDTASK.this, "Task saved successfully", Toast.LENGTH_SHORT).show();
+                            });
+                            startActivity(goToMainActivity);
+                        },
+                        failureResponse -> {
+                            Log.e(TAG, "Failed to save task: " + failureResponse.toString());
+                            runOnUiThread(() -> {
+                                Toast.makeText(ADDTASK.this, "Failed to save task", Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                );
+
+                ImageView imageView = findViewById(R.id.arrowImage2);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intentArrow = new Intent(ADDTASK.this, MainActivity.class);
+                        startActivity(intentArrow);
+                    }
+                });
             }
         });
     }
-
 
 }

@@ -12,10 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Task;
+
 import com.example.taskmaster.Activites.TaskDetailPage;
-import com.example.taskmaster.R; // Import your R class
-import com.example.taskmaster.TaskState;
-import com.example.taskmaster.model.Task;
+import com.example.taskmaster.R;
+import com.amplifyframework.datastore.generated.model.TaskState;
+
+
 
 import java.util.List;
 
@@ -47,9 +50,9 @@ Context callingActivity;
 
 
         Task task = taskList.get(position);
-        String taskTitle = task.getTitle();
-        fragmentTextView.setText((position + 1) + ". " +task.getBody()+  "\n"+ task.getTitle());
-        String taskBody = task.getBody();
+        String taskTitle = task.getName();
+        fragmentTextView.setText((position + 1) + ". " +task.getDescription()+  "\n"+ task.getDescription());
+        String taskBody = task.getDescription();
 
         TaskState taskState = task.getState();
         textviewState.setText("State: " + taskState.toString());
