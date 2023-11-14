@@ -17,11 +17,13 @@ import android.widget.TextView;
 
 //import com.example.taskmaster.Adapter.ViewAdapter;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 import com.example.taskmaster.Adapter.ViewAdapter;
 import com.example.taskmaster.R;
 import com.example.taskmaster.TaskState;
 //import com.example.taskmaster.dataBase.TaskdataBase;
-import com.example.taskmaster.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 //    TaskdataBase taskdataBase;
     List<Task> taskList = new ArrayList<>();
     ViewAdapter adapter;
+    public static final String TAG = "AddTaskActivity";
 
 
     @Override
@@ -147,10 +150,34 @@ private void setRecyclerViewList(){
 //            .allowMainThreadQueries().build();
 
 
-    adapter= new ViewAdapter(taskList,this);
+
+    ViewAdapter adapter = new ViewAdapter(taskList, this);
     recyclerView.setAdapter(adapter);
 
-    taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
+
+// Read from DynamoDB
+    Amplify.API.query(
+            ModelQuery.list(Task.class),
+            success -> {
+                Log.i(TAG, "Read tasks successfully");
+
+                // Initialize the taskList if it's not initialized yet
+                if (taskList == null) {
+                    taskList = new ArrayList<>();
+                }
+
+                // Clear the existing taskList and add the tasks from the query result
+                taskList.clear();
+                for (Task databaseTask : success.getData()) {
+                    taskList.add(databaseTask);
+                }
+
+                // Notify the adapter that the data has changed
+                runOnUiThread(() -> adapter.notifyDataSetChanged());
+            },
+            failure -> Log.e(TAG, "Failed to read tasks: " + failure.toString())
+    );
+    //taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
 //    taskList.add(new  Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
 //    taskList.add(new  Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
 //    taskList.add(new  Task("Task 4", "Description for Task 4",TaskState.NEW));
