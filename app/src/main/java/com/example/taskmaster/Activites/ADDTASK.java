@@ -2,7 +2,7 @@ package com.example.taskmaster.Activites;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-import static com.example.taskmaster.Activites.MainActivity.DATABASE_NAME;
+import static java.util.Arrays.stream;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,18 +19,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Task;
+//import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.datastore.generated.model.TaskState;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
-import com.example.taskmaster.TaskState;
+import com.google.android.material.snackbar.Snackbar;
 //import com.example.taskmaster.dataBase.TaskdataBase;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ADDTASK extends AppCompatActivity {
     //TaskdataBase taskdataBase;
     List<Task> TASKS = null;
+    Spinner teamsSpinner = null;
+    Spinner Statespinner = null;
+    CompletableFuture<List<Team>> teamFuture = new CompletableFuture<>();
     public static final String TAG = "AddTaskActivity";
     public static final String DATABASE_NAME = "NAME";
 
@@ -38,32 +49,12 @@ public class ADDTASK extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
-
-
-        //create and setup the database
-//        taskdataBase = Room.databaseBuilder(
-//                        getApplicationContext(),
-//                        TaskdataBase.class,
-//                        DATABASE_NAME)
-//                .fallbackToDestructiveMigration()
-//                .allowMainThreadQueries()
-//                .build();
-//        TASKS= taskdataBase.TaskDAO().findAll();
-
-
-        Spinner spinnerlist = findViewById(R.id.spinnerlsitforState);
-        spinnerlist.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                TaskState.values()
-        ));
-
+        teamFuture=new CompletableFuture<>();
+        setUpSpinner();
+        saveButton();
 
         Toast toast = Toast.makeText(this, "submitted", LENGTH_SHORT);
-
-
         TextView addTask = findViewById(R.id.textBar);
-
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,61 +62,98 @@ public class ADDTASK extends AppCompatActivity {
                 startActivity(intent1);
 
                 toast.show();
+
+
             }
+
         });
 
-
-        Button submitButton = findViewById(R.id.submitButton);
-        Intent goToMainActivity = new Intent(this, MainActivity.class);
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        ImageView imageView = findViewById(R.id.arrowImage2);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ADDTASK.this, "Submitted!", Toast.LENGTH_SHORT).show();
-
-                // Update the add task to add to DynamoDB
-                // 1. Retrieve task details
-                String taskTitle = ((EditText) findViewById(R.id.taskTitle)).getText().toString();
-                String taskDescription = ((EditText) findViewById(R.id.editTextdescription)).getText().toString();
-                String spinnerValue = spinnerlist.getSelectedItem().toString();
-
-
-                String enumValue = spinnerValue.toUpperCase();
-
-                // 2. Create a Task object using Amplify DataStore model
-                Task task = Task.builder()
-                        .name(taskTitle)
-                        .description(taskDescription)
-                        .state(com.amplifyframework.datastore.generated.model.TaskState.valueOf(enumValue))
-                        .build();
-
-                // 3. Use Amplify to mutate (create) the Task in DynamoDB
-                Amplify.API.mutate(
-                        ModelMutation.create(task),
-                        successResponse -> {
-                            Log.i(TAG, "Task saved successfully");
-                            runOnUiThread(() -> {
-                                Toast.makeText(ADDTASK.this, "Task saved successfully", Toast.LENGTH_SHORT).show();
-                            });
-                            startActivity(goToMainActivity);
-                        },
-                        failureResponse -> {
-                            Log.e(TAG, "Failed to save task: " + failureResponse.toString());
-                            runOnUiThread(() -> {
-                                Toast.makeText(ADDTASK.this, "Failed to save task", Toast.LENGTH_SHORT).show();
-                            });
-                        }
-                );
-
-                ImageView imageView = findViewById(R.id.arrowImage2);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intentArrow = new Intent(ADDTASK.this, MainActivity.class);
-                        startActivity(intentArrow);
-                    }
-                });
+                Intent intentArrow = new Intent(ADDTASK.this, MainActivity.class);
+                startActivity(intentArrow);
             }
         });
+
     }
 
-}
+
+    public void setUpSpinner() {
+         Statespinner = (Spinner) findViewById(R.id.spinnerlsitforState);
+        Statespinner.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                TaskState.values()
+        ));
+
+        teamsSpinner = findViewById(R.id.addteamspinner);
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                success -> {
+                    Log.i(TAG, "Read Team Successfully");
+                    ArrayList<String> teamName = new ArrayList<>();
+                    ArrayList<Team> teams = new ArrayList<>();
+                    for (Team team : success.getData()) {
+                        teams.add(team);
+                        teamName.add(team.getName());
+                        Log.d(TAG, "setupSpinners() returned: " + team.getName());
+                    }
+                    teamFuture.complete(teams);
+                    runOnUiThread(() -> {
+                        teamsSpinner.setAdapter(new ArrayAdapter<>(
+                                this,
+                                android.R.layout.simple_spinner_item,
+                                teamName
+                        ));
+                    });
+                },
+                failure -> {
+                    teamFuture.complete(null);
+                    Log.e(TAG, "Failed to read teams successfully: " + failure.toString());
+                }
+        );
+    }
+
+
+    public void saveButton() {
+
+        Button submitButton = findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(v -> {
+            String name = ((EditText) findViewById(R.id.taskTitle)).getText().toString();
+            String description = ((EditText) findViewById(R.id.editTextdescription)).getText().toString();
+            String selectedTeamString = teamsSpinner.getSelectedItem().toString();
+            List<Team> teams = null;
+            try {
+                teams = teamFuture.get();
+            } catch (InterruptedException ie) {
+                Log.e(TAG, " InterruptedException while getting teams");
+            } catch (ExecutionException ee) {
+                Log.e(TAG, " ExecutionException while getting teams");
+            }
+
+            Team selectedTeam = teams.stream().filter(c -> c.getName().equals(selectedTeamString)).findAny().orElseThrow(RuntimeException::new);
+
+            Task newTask = Task.builder()
+                    .name(name)
+                    .description(description)
+                    .state((TaskState) Statespinner.getSelectedItem())
+                    .teamPerson(selectedTeam)
+                    .build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(newTask),
+                    successResponse -> {
+                        Log.i(TAG, "AddTaskActivity.onCreate(): made a task successfully");
+                        Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_SHORT).show();
+                    },
+                    failureResponse -> {
+                        Log.e(TAG, "AddTaskActivity.onCreate(): failed with this response" + failureResponse);
+                        Toast.makeText(this, "Failed to add task. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+            );
+            Snackbar.make(findViewById(R.id.ADDTASK), "Task saved!", Snackbar.LENGTH_SHORT).show();
+
+        });
+    }}

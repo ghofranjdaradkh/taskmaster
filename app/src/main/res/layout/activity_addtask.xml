@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addteamspinner"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activites.ADDTASK">
@@ -29,8 +30,8 @@
         android:text="My Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="57dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -40,8 +41,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.303"
-        tools:layout_editor_absoluteX="57dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp" />
 
     <TextView
         android:id="@+id/textView4"
@@ -51,8 +52,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.443"
-        tools:layout_editor_absoluteX="61dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="61dp" />
 
     <EditText
         android:id="@+id/editTextdescription"
@@ -64,8 +65,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
-        tools:layout_editor_absoluteX="57dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp" />
 
     <Button
         android:id="@+id/submitButton"
@@ -75,8 +76,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.834"
-        tools:layout_editor_absoluteX="25dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="25dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -86,23 +87,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.907"
-        tools:layout_editor_absoluteX="37dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="37dp" />
 
     <TextView
         android:id="@+id/textBar"
         android:layout_width="409dp"
         android:layout_height="42dp"
-        android:text="TaskMaster"
         android:background="@color/design_default_color_secondary"
+        android:text="TaskMaster"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041"
         tools:ignore="MissingConstraints" />
-
-
 
 
     <androidx.appcompat.widget.Toolbar
@@ -120,21 +119,43 @@
         android:id="@+id/arrowImage2"
         android:layout_width="61dp"
         android:layout_height="42dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar2"
         app:layout_constraintVertical_bias="0.64"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
+        app:srcCompat="@android:drawable/ic_menu_revert"
+        tools:ignore="MissingConstraints" />
 
     <Spinner
         android:id="@+id/spinnerlsitforState"
         android:layout_width="354dp"
-        android:layout_height="20dp"
+        android:layout_height="24dp"
         android:layout_marginBottom="288dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/addteamspinner"
+        android:layout_width="354dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="216dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+        tools:ignore="DuplicateIds" />
+
+    <TextView
+        android:id="@+id/teamText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Teams"
+        app:layout_constraintBottom_toTopOf="@+id/addteamspinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerlsitforState"
+        app:layout_constraintVertical_bias="0.016"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

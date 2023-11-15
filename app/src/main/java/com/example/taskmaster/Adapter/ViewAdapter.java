@@ -6,18 +6,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.Task;
-
+import com.amplifyframework.datastore.generated.model.TaskState;
 import com.example.taskmaster.Activites.TaskDetailPage;
 import com.example.taskmaster.R;
-import com.amplifyframework.datastore.generated.model.TaskState;
-
 
 
 import java.util.List;

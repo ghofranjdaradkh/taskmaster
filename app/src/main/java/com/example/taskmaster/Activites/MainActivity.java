@@ -17,12 +17,13 @@ import android.widget.TextView;
 
 //import com.example.taskmaster.Adapter.ViewAdapter;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.Adapter.ViewAdapter;
 import com.example.taskmaster.R;
-import com.example.taskmaster.TaskState;
 //import com.example.taskmaster.dataBase.TaskdataBase;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     public static final String DATABASE_NAME="NAME";
-//    TaskdataBase taskdataBase;
+    //    TaskdataBase taskdataBase;
     List<Task> taskList = new ArrayList<>();
     ViewAdapter adapter;
     public static final String TAG = "AddTaskActivity";
@@ -112,7 +113,32 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        // ================================================
+        Team team1= new Team.Builder()
+                .name("TEAM1").build();
 
+        Team team2= new Team.Builder()
+                .name("TEAM2").build();
+        Team team3= new Team.Builder()
+                .name("TEAM3").build();
+        Amplify.API.mutate(
+                ModelMutation.create(team1),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team"+failure.getMessage())
+        );
+
+        Amplify.API.mutate(
+                ModelMutation.create(team2),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team" +failure.getMessage())
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(team3),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team"+failure.getMessage())
+        );
+
+//================================================
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -125,73 +151,53 @@ public class MainActivity extends AppCompatActivity {
         String username = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
 
         ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, username));
-//        if (taskdataBase != null) {
-//            List<Task> updatedTaskList = taskdataBase.TaskDAO().findAll();
-//            if (taskList != null) {
-//                taskList.clear();
-////                taskList.addAll(updatedTaskList);
-//                if (adapter != null) {
-//                    adapter.notifyDataSetChanged();
-//                }
-//            }
-        }
+
+    }
 
 
 
 
-private void setRecyclerViewList(){
+    private void setRecyclerViewList(){
 
-    RecyclerView recyclerView =(RecyclerView) findViewById(R.id.recyclerViewId);
-    //set the LayoutManager
-    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
+        RecyclerView recyclerView =(RecyclerView) findViewById(R.id.recyclerViewId);
+        //set the LayoutManager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 //    taskdataBase = Room.databaseBuilder(getApplicationContext(), TaskdataBase.class, DATABASE_NAME)
 //            .fallbackToDestructiveMigration()
 //            .allowMainThreadQueries().build();
 
 
 
-    ViewAdapter adapter = new ViewAdapter(taskList, this);
-    recyclerView.setAdapter(adapter);
+
 
 
 // Read from DynamoDB
-    Amplify.API.query(
-            ModelQuery.list(Task.class),
-            success -> {
-                Log.i(TAG, "Read tasks successfully");
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                success ->
+                {
+                    Log.i(TAG, "Read Product successfully");
+                    taskList.clear();
+                    for (Task databaseProduct : success.getData()){
+                        taskList.add(databaseProduct);
+                    }
+                    runOnUiThread(() ->{
+                        adapter.notifyDataSetChanged();
+                    });
+                },
+                failure -> Log.i(TAG, "Did not read products successfully")
+        );
 
-                // Initialize the taskList if it's not initialized yet
-                if (taskList == null) {
-                    taskList = new ArrayList<>();
-                }
+        adapter = new ViewAdapter(taskList, this);
+        recyclerView.setAdapter(adapter);
 
-                // Clear the existing taskList and add the tasks from the query result
-                taskList.clear();
-                for (Task databaseTask : success.getData()) {
-                    taskList.add(databaseTask);
-                }
+    }
 
-                // Notify the adapter that the data has changed
-                runOnUiThread(() -> adapter.notifyDataSetChanged());
-            },
-            failure -> Log.e(TAG, "Failed to read tasks: " + failure.toString())
-    );
-    //taskList.add(new  Task("Task 1", "Description for Task 1",TaskState.NEW));
-//    taskList.add(new  Task("Task 2", "Description for Task 2",TaskState.ASSIGNED));
-//    taskList.add(new  Task("Task 3", "Description for Task 3",TaskState.IN_PROGRESS));
-//    taskList.add(new  Task("Task 4", "Description for Task 4",TaskState.NEW));
-//    taskList.add(new  Task("Task 5", "Description for Task 5",TaskState.COMPLETED));
-
-
-
-
-
-}
+    }
 
 
 
 
 
 
-}
