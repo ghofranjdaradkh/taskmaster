@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.taskmaster"
-        minSdk 33
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -29,8 +29,8 @@ android {
 }
 
 dependencies {
-    implementation group: 'com.amplifyframework', name: 'aws-api', version: '2.14.4'
-    implementation group: 'com.amplifyframework', name: 'aws-datastore', version: '2.14.4'
+    implementation 'com.amplifyframework:aws-api:1.33.0'
+    implementation 'com.amplifyframework:aws-datastore:1.33.0'
 
     implementation group: 'androidx.test.espresso', name: 'espresso-contrib', version: '3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

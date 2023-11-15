@@ -1,8 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.annotations.BelongsTo;
-
+import com.amplifyframework.core.model.ModelIdentifier;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,10 +9,7 @@ import java.util.Objects;
 
 import androidx.core.util.ObjectsCompat;
 
-import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
-import com.amplifyframework.core.model.ModelOperation;
-import com.amplifyframework.core.model.annotations.AuthRule;
 import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
@@ -21,25 +17,16 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the Task type in your schema. */
+/** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Tasks",  authRules = {
-  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
-})
-@Index(name = "byteam", fields = {"teamId","name"})
-public final class Task implements Model {
-  public static final QueryField ID = field("Task", "id");
-  public static final QueryField NAME = field("Task", "name");
-  public static final QueryField DESCRIPTION = field("Task", "description");
-  public static final QueryField STATE = field("Task", "state");
-  public static final QueryField DUE_DATE = field("Task", "dueDate");
-  public static final QueryField TEAM_PERSON = field("Task", "teamId");
+@ModelConfig(pluralName = "Todos", type = Model.Type.USER, version = 1)
+public final class Todo implements Model {
+  public static final QueryField ID = field("Todo", "id");
+  public static final QueryField NAME = field("Todo", "name");
+  public static final QueryField DESCRIPTION = field("Todo", "description");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
-  private final @ModelField(targetType="TaskState") TaskState state;
-  private final @ModelField(targetType="AWSDate") Temporal.Date dueDate;
-  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId",  type = Team.class) Team teamPerson;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -60,18 +47,6 @@ public final class Task implements Model {
       return description;
   }
   
-  public TaskState getState() {
-      return state;
-  }
-  
-  public Temporal.Date getDueDate() {
-      return dueDate;
-  }
-  
-  public Team getTeamPerson() {
-      return teamPerson;
-  }
-  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -80,13 +55,10 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
+  private Todo(String id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.state = state;
-    this.dueDate = dueDate;
-    this.teamPerson = teamPerson;
   }
   
   @Override
@@ -96,15 +68,12 @@ public final class Task implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      Task task = (Task) obj;
-      return ObjectsCompat.equals(getId(), task.getId()) &&
-              ObjectsCompat.equals(getName(), task.getName()) &&
-              ObjectsCompat.equals(getDescription(), task.getDescription()) &&
-              ObjectsCompat.equals(getState(), task.getState()) &&
-              ObjectsCompat.equals(getDueDate(), task.getDueDate()) &&
-              ObjectsCompat.equals(getTeamPerson(), task.getTeamPerson()) &&
-              ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
+      Todo todo = (Todo) obj;
+      return ObjectsCompat.equals(getId(), todo.getId()) &&
+              ObjectsCompat.equals(getName(), todo.getName()) &&
+              ObjectsCompat.equals(getDescription(), todo.getDescription()) &&
+              ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
   }
   
@@ -114,9 +83,6 @@ public final class Task implements Model {
       .append(getId())
       .append(getName())
       .append(getDescription())
-      .append(getState())
-      .append(getDueDate())
-      .append(getTeamPerson())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -126,13 +92,10 @@ public final class Task implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("Task {")
+      .append("Todo {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
-      .append("state=" + String.valueOf(getState()) + ", ")
-      .append("dueDate=" + String.valueOf(getDueDate()) + ", ")
-      .append("teamPerson=" + String.valueOf(getTeamPerson()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -151,12 +114,9 @@ public final class Task implements Model {
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
    */
-  public static Task justId(String id) {
-    return new Task(
+  public static Todo justId(String id) {
+    return new Todo(
       id,
-      null,
-      null,
-      null,
       null,
       null
     );
@@ -165,10 +125,7 @@ public final class Task implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
-      description,
-      state,
-      dueDate,
-      teamPerson);
+      description);
   }
   public interface NameStep {
     BuildStep name(String name);
@@ -176,12 +133,9 @@ public final class Task implements Model {
   
 
   public interface BuildStep {
-    Task build();
+    Todo build();
     BuildStep id(String id);
     BuildStep description(String description);
-    BuildStep state(TaskState state);
-    BuildStep dueDate(Temporal.Date dueDate);
-    BuildStep teamPerson(Team teamPerson);
   }
   
 
@@ -189,33 +143,24 @@ public final class Task implements Model {
     private String id;
     private String name;
     private String description;
-    private TaskState state;
-    private Temporal.Date dueDate;
-    private Team teamPerson;
     public Builder() {
       
     }
     
-    private Builder(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
+    private Builder(String id, String name, String description) {
       this.id = id;
       this.name = name;
       this.description = description;
-      this.state = state;
-      this.dueDate = dueDate;
-      this.teamPerson = teamPerson;
     }
     
     @Override
-     public Task build() {
+     public Todo build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new Task(
+        return new Todo(
           id,
           name,
-          description,
-          state,
-          dueDate,
-          teamPerson);
+          description);
     }
     
     @Override
@@ -231,24 +176,6 @@ public final class Task implements Model {
         return this;
     }
     
-    @Override
-     public BuildStep state(TaskState state) {
-        this.state = state;
-        return this;
-    }
-    
-    @Override
-     public BuildStep dueDate(Temporal.Date dueDate) {
-        this.dueDate = dueDate;
-        return this;
-    }
-    
-    @Override
-     public BuildStep teamPerson(Team teamPerson) {
-        this.teamPerson = teamPerson;
-        return this;
-    }
-    
     /**
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -261,8 +188,8 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
-      super(id, name, description, state, dueDate, teamPerson);
+    private CopyOfBuilder(String id, String name, String description) {
+      super(id, name, description);
       Objects.requireNonNull(name);
     }
     
@@ -275,24 +202,14 @@ public final class Task implements Model {
      public CopyOfBuilder description(String description) {
       return (CopyOfBuilder) super.description(description);
     }
-    
-    @Override
-     public CopyOfBuilder state(TaskState state) {
-      return (CopyOfBuilder) super.state(state);
-    }
-    
-    @Override
-     public CopyOfBuilder dueDate(Temporal.Date dueDate) {
-      return (CopyOfBuilder) super.dueDate(dueDate);
-    }
-    
-    @Override
-     public CopyOfBuilder teamPerson(Team teamPerson) {
-      return (CopyOfBuilder) super.teamPerson(teamPerson);
-    }
   }
   
 
-
+  public static class TodoIdentifier extends ModelIdentifier<Todo> {
+    private static final long serialVersionUID = 1L;
+    public TodoIdentifier(String id) {
+      super(id);
+    }
+  }
   
 }

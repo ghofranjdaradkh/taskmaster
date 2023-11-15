@@ -7,9 +7,7 @@
           "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDate": "2024-01-13T14:53:27.321Z",
-              "apiKeyExpirationDays": 60,
-              "description": "api key for acsess android app "
+              "apiKeyExpirationDays": 7
             },
             "authenticationType": "API_KEY"
           }
