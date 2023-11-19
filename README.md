@@ -12,12 +12,15 @@ task details that shows the task name and discription
 Main activity :
 it have some buttons (add task , all task , setting)
 and it  show the tasks that added in the data base
+it show the tasks from dynamo db , and it show the username and the spasific team
 # We update the main  task to read from aws dynamoDB 
 ADD Tasks :
 it will make the user add tasks and descriptions and the status of this task then it will save in the database
+add Spinner for which team that task
 # We update the add task to add to aws dynamoDB (to save)
 setting page :
 it make the user save his name and the appear in the main page
+allow the user to choose their team
 task details:
 when the user click on the task it appear new page that show the details of this task
 
@@ -45,6 +48,9 @@ Add three Espresso tests
 ### MainActivitywithAWSTest
 ![Alt text](screenshots/MainwithAWS.PNG)
 
+### MainActivitywithNEWSettingAWSTest
+![Alt text](screenshots/testnew.PNG)
+
 
 
 -------------------------------------------------------------------
@@ -54,6 +60,7 @@ Add three Espresso tests
 # Main page :
 ![Alt text](screenshots/mainpage1.PNG)
 
+![Alt text](screenshots/newMainaws.PNG)
 
  # main page with recycle view :
 ![Alt text](screenshots/mainwithrecycleviewedit.PNG)

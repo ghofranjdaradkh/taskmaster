@@ -5,6 +5,7 @@
     android:id="@+id/settingPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral90"
     tools:context=".Activites.SettingsPage">
 
 
@@ -14,8 +15,8 @@
         android:layout_height="48dp"
         android:layout_marginEnd="76dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="@string/enter_your_username"
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,16 +36,16 @@
         app:layout_constraintVertical_bias="0.27"
         tools:ignore="MissingConstraints" />
 
+
     <Button
         android:id="@+id/Savebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="192dp"
         android:text="save"
         app:layout_constraintTop_toBottomOf="@+id/editTextUserName"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="52dp" />
-
+        tools:layout_editor_absoluteX="47dp" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSetting"
@@ -67,4 +68,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbarSetting"
         app:srcCompat="@android:drawable/ic_menu_revert" />
+
+    <Spinner
+        android:id="@+id/teamlist"
+        android:layout_width="277dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

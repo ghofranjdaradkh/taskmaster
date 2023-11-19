@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
         setRecyclerViewList();
+
 
 
 
@@ -114,37 +116,39 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // ================================================
-        Team team1= new Team.Builder()
-                .name("TEAM1").build();
-
-        Team team2= new Team.Builder()
-                .name("TEAM2").build();
-        Team team3= new Team.Builder()
-                .name("TEAM3").build();
-        Amplify.API.mutate(
-                ModelMutation.create(team1),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team"+failure.getMessage())
-        );
-
-        Amplify.API.mutate(
-                ModelMutation.create(team2),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team" +failure.getMessage())
-        );
-        Amplify.API.mutate(
-                ModelMutation.create(team3),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team"+failure.getMessage())
-        );
+//        Team team1= new Team.Builder()
+//                .name("TEAM1").build();
+//
+//        Team team2= new Team.Builder()
+//                .name("TEAM2").build();
+//        Team team3= new Team.Builder()
+//                .name("TEAM3").build();
+//        Amplify.API.mutate(
+//                ModelMutation.create(team1),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team"+failure.getMessage())
+//        );
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(team2),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team" +failure.getMessage())
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(team3),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team"+failure.getMessage())
+//        );
 
 //================================================
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "StringFormatInvalid"})
     @Override
 
     protected void onResume() {
+        super.onResume();
+
         super.onResume();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -152,7 +156,19 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, username));
 
+
+
+String teamName=preferences.getString(SettingsPage.TEAM_TAG,"No team");
+
+        ((TextView) findViewById(R.id.teamMain)).setText(getString(R.string.your_team_names, teamName));
+
+
+
+setRecyclerViewList();
     }
+
+
+
 
 
 
@@ -163,21 +179,12 @@ public class MainActivity extends AppCompatActivity {
         //set the LayoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-//    taskdataBase = Room.databaseBuilder(getApplicationContext(), TaskdataBase.class, DATABASE_NAME)
-//            .fallbackToDestructiveMigration()
-//            .allowMainThreadQueries().build();
-
-
-
-
-
-
-// Read from DynamoDB
+        // Read from DynamoDB
         Amplify.API.query(
                 ModelQuery.list(Task.class),
                 success ->
                 {
-                    Log.i(TAG, "Read Product successfully");
+                    Log.i(TAG, "Read tasks successfully");
                     taskList.clear();
                     for (Task databaseProduct : success.getData()){
                         taskList.add(databaseProduct);
@@ -189,12 +196,20 @@ public class MainActivity extends AppCompatActivity {
                 failure -> Log.i(TAG, "Did not read products successfully")
         );
 
+
+
         adapter = new ViewAdapter(taskList, this);
         recyclerView.setAdapter(adapter);
 
-    }
 
     }
+
+
+    private void init() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        taskList = new ArrayList<>();}
+
+}
 
 
 
