@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Task;
 //import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.TaskState;
@@ -81,14 +80,8 @@ public class ADDTASK extends AppCompatActivity {
 
 
     public void setUpSpinner() {
-         Statespinner = (Spinner) findViewById(R.id.spinnerlsitforState);
-        Statespinner.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                TaskState.values()
-        ));
 
-        teamsSpinner = findViewById(R.id.addteamspinner);
+        teamsSpinner = findViewById(R.id.addteam);
         Amplify.API.query(
                 ModelQuery.list(Team.class),
                 success -> {
@@ -114,6 +107,14 @@ public class ADDTASK extends AppCompatActivity {
                     Log.e(TAG, "Failed to read teams successfully: " + failure.toString());
                 }
         );
+
+
+                 Statespinner = (Spinner) findViewById(R.id.spinnerlsitforState);
+        Statespinner.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                TaskState.values()
+        ));
     }
 
 
@@ -146,14 +147,19 @@ public class ADDTASK extends AppCompatActivity {
                     ModelMutation.create(newTask),
                     successResponse -> {
                         Log.i(TAG, "AddTaskActivity.onCreate(): made a task successfully");
-                        Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_SHORT).show();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ADDTASK.this, "Task Added Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     },
                     failureResponse -> {
                         Log.e(TAG, "AddTaskActivity.onCreate(): failed with this response" + failureResponse);
                         Toast.makeText(this, "Failed to add task. Please try again.", Toast.LENGTH_SHORT).show();
                     }
             );
-            Snackbar.make(findViewById(R.id.ADDTASK), "Task saved!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.addactivity), "Task saved!", Snackbar.LENGTH_SHORT).show();
 
         });
     }}

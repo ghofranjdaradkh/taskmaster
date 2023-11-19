@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addteamspinner"
+    android:id="@+id/addactivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activites.ADDTASK">
+    tools:context=".Activites.ADDTASK"
+    android:background="@color/material_dynamic_neutral90"
+    >
 
 
     <TextView
@@ -128,34 +130,45 @@
 
     <Spinner
         android:id="@+id/spinnerlsitforState"
-        android:layout_width="354dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="288dp"
+        android:layout_width="352dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="252dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Spinner
-        android:id="@+id/addteamspinner"
-        android:layout_width="354dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="216dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="DuplicateIds" />
 
     <TextView
         android:id="@+id/teamText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:text="Teams"
-        app:layout_constraintBottom_toTopOf="@+id/addteamspinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerlsitforState"
-        app:layout_constraintVertical_bias="0.016"
         tools:ignore="HardcodedText" />
+
+    <Spinner
+        android:id="@+id/addteam"
+        android:layout_width="345dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="164dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/stateText"
+        android:layout_width="52dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="20dp"
+        android:text="State"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerlsitforState"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

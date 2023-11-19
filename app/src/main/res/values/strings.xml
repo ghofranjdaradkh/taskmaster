@@ -15,4 +15,7 @@
     <string name="subject1">subject1</string>
     <string name="subject2">subject2</string>
     <string name="do_something">Do Something</string>
+    <string name="your_team_names" translatable="false">YourTeam: %1$s</string>
+    <string name="YourTeam">team</string>
+    <string name="team">team</string>
 </resources>
