@@ -293,24 +293,24 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "ENUM",
-                            "name": "TaskState",
+                            "kind": "SCALAR",
+                            "name": "String",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "AWSDate",
+                            "kind": "ENUM",
+                            "name": "TaskState",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -3585,11 +3585,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskStateInput",
+                            "name": "ModelStringInput",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3597,11 +3597,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelStringInput",
+                            "name": "ModelTaskStateInput",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3701,11 +3701,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskStateInput",
+                            "name": "ModelStringInput",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3713,11 +3713,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelStringInput",
+                            "name": "ModelTaskStateInput",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3833,11 +3833,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "type": {
-                            "kind": "ENUM",
-                            "name": "TaskState",
+                            "kind": "SCALAR",
+                            "name": "String",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3845,11 +3845,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "AWSDate",
+                            "kind": "ENUM",
+                            "name": "TaskState",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3925,11 +3925,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "type": {
-                            "kind": "ENUM",
-                            "name": "TaskState",
+                            "kind": "SCALAR",
+                            "name": "String",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -3937,11 +3937,11 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "AWSDate",
+                            "kind": "ENUM",
+                            "name": "TaskState",
                             "ofType": null
                         },
                         "defaultValue": null,
@@ -4037,7 +4037,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "state",
+                        "name": "taskImageS3Key",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -4049,7 +4049,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "dueDate",
+                        "name": "state",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",

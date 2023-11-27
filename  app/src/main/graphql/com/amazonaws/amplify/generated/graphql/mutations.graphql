@@ -50,8 +50,8 @@ mutation CreateTask(
     id
     name
     description
+    taskImageS3Key
     state
-    dueDate
     teamId
     teamPerson {
       id
@@ -74,8 +74,8 @@ mutation UpdateTask(
     id
     name
     description
+    taskImageS3Key
     state
-    dueDate
     teamId
     teamPerson {
       id
@@ -98,8 +98,8 @@ mutation DeleteTask(
     id
     name
     description
+    taskImageS3Key
     state
-    dueDate
     teamId
     teamPerson {
       id

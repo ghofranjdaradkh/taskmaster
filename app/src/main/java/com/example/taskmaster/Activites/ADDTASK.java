@@ -89,19 +89,19 @@ public class ADDTASK extends AppCompatActivity {
                     ArrayList<String> teamName = new ArrayList<>();
                     ArrayList<Team> teams = new ArrayList<>();
                     if (success.getData() != null) {
-                    for (Team team : success.getData()) {
-                        teams.add(team);
-                        teamName.add(team.getName());
-                        Log.d(TAG, "setupSpinners() returned: " + team.getName());
-                    }
-                    teamFuture.complete(teams);
-                    runOnUiThread(() -> {
-                        teamsSpinner.setAdapter(new ArrayAdapter<>(
-                                this,
-                                android.R.layout.simple_spinner_item,
-                                teamName
-                        ));
-                    });
+                        for (Team team : success.getData()) {
+                            teams.add(team);
+                            teamName.add(team.getName());
+                            Log.d(TAG, "setupSpinners() returned: " + team.getName());
+                        }
+                        teamFuture.complete(teams);
+                        runOnUiThread(() -> {
+                            teamsSpinner.setAdapter(new ArrayAdapter<>(
+                                    this,
+                                    android.R.layout.simple_spinner_item,
+                                    teamName
+                            ));
+                        });
                     } else {
                         Log.e(TAG, "Success response data is null");
                     }
@@ -113,7 +113,7 @@ public class ADDTASK extends AppCompatActivity {
         );
 
 
-                 Statespinner = (Spinner) findViewById(R.id.spinnerlsitforState);
+        Statespinner = (Spinner) findViewById(R.id.spinnerlsitforState);
         Statespinner.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,

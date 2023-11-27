@@ -296,37 +296,6 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
         }
-        Amplify.API.query(
-                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
-                ), success ->
-                {
-                    Log.i(TAG, "Read tasks successfully");
-                    taskList.clear();
-                    if (success.getData() != null) {
-                        for (Task databaseProduct : success.getData()) {
-                            taskList.add(databaseProduct);
-                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
-                        }
-                        runOnUiThread(() -> {
-                            adapter.notifyDataSetChanged();
-                        });
-                        Log.e(TAG, "Success response data is null");
-                    }
-                }, failure -> Log.i(TAG, "Did not read products successfully"));
-    }
-
-
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void setRecyclerViewList() {
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewId);
-        //set the LayoutManager
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        Log.i("TAG", "setUpTaskRecyclerView1111: " + TeamName);
-        // Read from DynamoDB
 //        Amplify.API.query(
 //                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
 //                ), success ->
@@ -344,6 +313,37 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.e(TAG, "Success response data is null");
 //                    }
 //                }, failure -> Log.i(TAG, "Did not read products successfully"));
+    }
+
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setRecyclerViewList() {
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewId);
+        //set the LayoutManager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        Log.i("TAG", "setUpTaskRecyclerView1111: " + TeamName);
+        // Read from DynamoDB
+        Amplify.API.query(
+                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
+                ), success ->
+                {
+                    Log.i(TAG, "Read tasks recycleview successfully");
+                    taskList.clear();
+                    if (success.getData() != null) {
+                        for (Task databaseProduct : success.getData()) {
+                            taskList.add(databaseProduct);
+                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
+                        }
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
+                        Log.e(TAG, "Success response data is null");
+                    }
+                }, failure -> Log.i(TAG, "Did not read products successfully"));
 
 
         adapter = new ViewAdapter(taskList, this);
