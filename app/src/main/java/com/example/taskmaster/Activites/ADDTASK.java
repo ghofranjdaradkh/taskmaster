@@ -88,6 +88,7 @@ public class ADDTASK extends AppCompatActivity {
                     Log.i(TAG, "Read Team Successfully");
                     ArrayList<String> teamName = new ArrayList<>();
                     ArrayList<Team> teams = new ArrayList<>();
+                    if (success.getData() != null) {
                     for (Team team : success.getData()) {
                         teams.add(team);
                         teamName.add(team.getName());
@@ -101,6 +102,9 @@ public class ADDTASK extends AppCompatActivity {
                                 teamName
                         ));
                     });
+                    } else {
+                        Log.e(TAG, "Success response data is null");
+                    }
                 },
                 failure -> {
                     teamFuture.complete(null);
@@ -134,6 +138,7 @@ public class ADDTASK extends AppCompatActivity {
                 Log.e(TAG, " ExecutionException while getting teams");
             }
 
+            assert teams != null;
             Team selectedTeam = teams.stream().filter(c -> c.getName().equals(selectedTeamString)).findAny().orElseThrow(RuntimeException::new);
 
             Task newTask = Task.builder()

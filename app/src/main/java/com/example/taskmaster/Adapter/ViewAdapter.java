@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.TaskState;
+import com.example.taskmaster.Activites.EditTask;
 import com.example.taskmaster.Activites.TaskDetailPage;
 import com.example.taskmaster.R;
 
@@ -48,7 +49,7 @@ Context callingActivity;
 
         Task task = taskList.get(position);
         String taskTitle = task.getName();
-        fragmentTextView.setText((position + 1) + ". " +task.getDescription()+  "\n"+ task.getDescription());
+        fragmentTextView.setText((position + 1) + ". " +task.getDescription()+  "\n"+ task.getName());
         String taskBody = task.getDescription();
 
         TaskState taskState = task.getState();
@@ -77,11 +78,6 @@ Context callingActivity;
 
 
 
-    public interface OnItemClickListener {
-
-
-        void onItemClick(int position);
-    }
 
     public static class  viewholderlist extends RecyclerView.ViewHolder {
 
