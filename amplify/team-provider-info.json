@@ -14,6 +14,12 @@
     "categories": {
       "api": {
         "taskmaster": {}
+      },
+      "auth": {
+        "taskmastere4d7581b": {}
+      },
+      "storage": {
+        "taskMaster": {}
       }
     }
   }

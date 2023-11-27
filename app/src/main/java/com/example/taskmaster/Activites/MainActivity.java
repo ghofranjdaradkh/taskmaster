@@ -8,17 +8,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.example.taskmaster.Adapter.ViewAdapter;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -26,17 +32,22 @@ import com.example.taskmaster.Adapter.ViewAdapter;
 import com.example.taskmaster.R;
 //import com.example.taskmaster.dataBase.TaskdataBase;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
-    public static final String DATABASE_NAME="NAME";
+    public static final String Main_ID_TAG = "task ID";
+    public static final String DATABASE_NAME = "NAME";
     //    TaskdataBase taskdataBase;
     List<Task> taskList = new ArrayList<>();
     ViewAdapter adapter;
     public static final String TAG = "AddTaskActivity";
-
+    String TeamName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +55,60 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         setRecyclerViewList();
+        setUpLoginAndLogoutButton();
+//step 1
+//        Amplify.Auth.signUp("Ghofran_daradkh@hotmail.com","gh@12345",
+//                AuthSignUpOptions.builder()
+//                .userAttribute(AuthUserAttributeKey.email(),"Ghofran_daradkh@hotmail.com")
+//                .userAttribute(AuthUserAttributeKey.nickname(),"ghofran").build(),
+//                good ->
+//                {
+//                    Log.i(TAG, "Signup succeeded: "+ good.toString());
+//                },
+//                bad ->
+//                {
+//                    Log.i(TAG, "Signup failed with username: "+ "Ghofran_daradkh@hotmail.com"+ " with this message: "+ bad.toString());
+//                }
+//        );
 
 
+//step 2
+//        Amplify.Auth.confirmSignUp("Ghofran_daradkh@hotmail.com",
+//                "049274",
+//                success ->
+//                {
+//                    Log.i(TAG, "verification succeeded: " + success.toString());
+//
+//                },
+//                failure ->
+//                {
+//                    Log.i(TAG, "verification failed: " + failure.toString());
+//                }
+//        );
+        //signin
+         /*Amplify.Auth.signIn("Ghofran_daradkh@hotmail.com",
+                "gh@12345",
+                success ->
+                {
+                    Log.i(TAG, "Login succeeded: "+success.toString());
+                },
+                failure ->
+                {
+                    Log.i(TAG, "Login failed: "+failure.toString());
+                }
+        );*/
+
+        //  log out from out system
+        /*Amplify.Auth.signOut(
+                () ->
+                {
+                    Log.i(TAG,"Logout succeeded");
+                },
+                failure ->
+                {
+                    Log.i(TAG, "Logout failed");
+                }
+        );*/
 
 
         Button addTask = findViewById(R.id.ADDTASK);
@@ -141,61 +204,146 @@ public class MainActivity extends AppCompatActivity {
 //        );
 
 //================================================
+        String emptyFilename= "emptyTestFileName";
+        File emptyFile = new File(getApplicationContext().getFilesDir(), emptyFilename);
+
+        try {
+            BufferedWriter emptyFileBufferedWriter= new BufferedWriter(new FileWriter(emptyFile));
+
+            emptyFileBufferedWriter.append("Some text here from ghofran\nAnother lib from ghofran");
+
+            emptyFileBufferedWriter.close();
+        }catch (IOException ioe){
+            Log.i(TAG, "could not write locally with filename: "+ emptyFilename);
+        }
+
+        String emptyFileS3Key = "someFileOnS3.txt";
+        Amplify.Storage.uploadFile(
+                emptyFileS3Key,
+                emptyFile,
+                success ->
+                {
+                    Log.i(TAG, "S3 upload succeeded and the Key is: " + success.getKey());
+                },
+                failure ->
+                {
+                    Log.i(TAG, "S3 upload failed! " + failure.getMessage());
+                }
+        );
+
+
+
+
     }
 
     @SuppressLint({"NotifyDataSetChanged", "StringFormatInvalid"})
     @Override
 
     protected void onResume() {
-        super.onResume();
+
 
         super.onResume();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String username = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
+        String userName = preferences.getString(SettingsPage.USERNAME_TAG, "No name");
 
-        ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, username));
+        ((TextView) findViewById(R.id.textView10)).setText(getString(R.string.your_user_name, userName));
 
 
-
-String teamName=preferences.getString(SettingsPage.TEAM_TAG,"No team");
+        String teamName = preferences.getString(SettingsPage.TEAM_TAG, "No team");
 
         ((TextView) findViewById(R.id.teamMain)).setText(getString(R.string.your_team_names, teamName));
 
+        TeamName = ((TextView) findViewById(R.id.teamMain)).getText().toString();
+
+        setRecyclerViewList();
 
 
-setRecyclerViewList();
+
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        String username="";
+        if (authUser == null){
+            Button loginButton = (Button) findViewById(R.id.TaskAppLoginButton);
+            loginButton.setVisibility(View.VISIBLE);
+            Button logoutButton = (Button) findViewById(R.id.TaskAppLogoutButton);
+            logoutButton.setVisibility(View.INVISIBLE);
+        }else{
+            username = authUser.getUsername();
+            Log.i(TAG, "Username is: "+ username);
+            Button loginButton = (Button) findViewById(R.id.TaskAppLoginButton);
+            loginButton.setVisibility(View.INVISIBLE);
+            Button logoutButton = (Button) findViewById(R.id.TaskAppLogoutButton);
+            logoutButton.setVisibility(View.VISIBLE);
+
+            String username2 = username; // ugly way for lambda hack
+            Amplify.Auth.fetchUserAttributes(
+                    success ->
+                    {
+                        Log.i(TAG, "Fetch user attributes succeeded for username: "+username2);
+                        for (AuthUserAttribute userAttribute: success){
+                            if(userAttribute.getKey().getKeyString().equals("email")){
+                                String userEmail = userAttribute.getValue();
+                                runOnUiThread(() ->
+                                {
+                                    ((TextView)findViewById(R.id.textView10)).setText(userEmail);
+                                });
+                            }
+                        }
+                    },
+                    failure ->
+                    {
+                        Log.i(TAG, "Fetch user attributes failed: "+failure.toString());
+                    }
+            );
+        }
+        Amplify.API.query(
+                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
+                ), success ->
+                {
+                    Log.i(TAG, "Read tasks successfully");
+                    taskList.clear();
+                    if (success.getData() != null) {
+                        for (Task databaseProduct : success.getData()) {
+                            taskList.add(databaseProduct);
+                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
+                        }
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
+                        Log.e(TAG, "Success response data is null");
+                    }
+                }, failure -> Log.i(TAG, "Did not read products successfully"));
     }
 
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void setRecyclerViewList() {
 
-
-
-    private void setRecyclerViewList(){
-
-        RecyclerView recyclerView =(RecyclerView) findViewById(R.id.recyclerViewId);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewId);
         //set the LayoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        Log.i("TAG", "setUpTaskRecyclerView1111: " + TeamName);
         // Read from DynamoDB
-        Amplify.API.query(
-                ModelQuery.list(Task.class),
-                success ->
-                {
-                    Log.i(TAG, "Read tasks successfully");
-                    taskList.clear();
-                    for (Task databaseProduct : success.getData()){
-                        taskList.add(databaseProduct);
-                    }
-                    runOnUiThread(() ->{
-                        adapter.notifyDataSetChanged();
-                    });
-                },
-                failure -> Log.i(TAG, "Did not read products successfully")
-        );
-
+//        Amplify.API.query(
+//                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
+//                ), success ->
+//                {
+//                    Log.i(TAG, "Read tasks successfully");
+//                    taskList.clear();
+//                    if (success.getData() != null) {
+//                        for (Task databaseProduct : success.getData()) {
+//                            taskList.add(databaseProduct);
+//                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
+//                        }
+//                        runOnUiThread(() -> {
+//                            adapter.notifyDataSetChanged();
+//                        });
+//                        Log.e(TAG, "Success response data is null");
+//                    }
+//                }, failure -> Log.i(TAG, "Did not read products successfully"));
 
 
         adapter = new ViewAdapter(taskList, this);
@@ -207,10 +355,44 @@ setRecyclerViewList();
 
     private void init() {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        taskList = new ArrayList<>();}
+        taskList = new ArrayList<>();
+    }
 
-}
 
+    private void setUpLoginAndLogoutButton() {
+        Button loginButton = (Button) findViewById(R.id.TaskAppLoginButton);
+        loginButton.setOnClickListener(v ->
+        {
+            Intent goToLogInIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(goToLogInIntent);
+        });
+
+        Button logoutButton = (Button) findViewById(R.id.TaskAppLogoutButton);
+        logoutButton.setOnClickListener(v ->
+        {
+            Amplify.Auth.signOut(
+                    () ->
+                    {
+                        Log.i(TAG, "Logout succeeded");
+                        runOnUiThread(() ->
+                        {
+                            ((TextView) findViewById(R.id.textView10)).setText("");
+                        });
+                        Intent goToLogInIntent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(goToLogInIntent);
+                    },
+                    failure ->
+                    {
+                        Log.i(TAG, "Logout failed");
+                        runOnUiThread(() ->
+                        {
+                            Toast.makeText(MainActivity.this, "Log out failed", Toast.LENGTH_LONG);
+                        });
+                    }
+            );
+        });
+
+}}
 
 
 

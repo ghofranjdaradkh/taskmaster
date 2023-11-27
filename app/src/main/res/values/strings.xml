@@ -18,4 +18,34 @@
     <string name="your_team_names" translatable="false">YourTeam: %1$s</string>
     <string name="YourTeam">team</string>
     <string name="team">team</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="newUserName">Username</string>
+    <string name="password">Password</string>
+    <string name="EnterYourUsername">Username</string>
+    <string name="EnterPassword">Password</string>
+    <string name="submit">Submit</string>
+    <string name="log_in">Log In</string>
+    <string name="LoginUsername">Username</string>
+    <string name="LoginPassword">Password</string>
+    <string name="EnterUserName">Username</string>
+    <string name="Password">Password</string>
+    <string name="Sign_up">SIGN UP</string>
+    <string name="Log_in">LOG IN</string>
+    <string name="verify_account">Verify Account</string>
+    <string name="UserName">Username</string>
+    <string name="verification_code">verification Code</string>
+    <string name="usernamewithVerify">Username</string>
+    <string name="Verification_code">Verification Code</string>
+    <string name="verify">Verify</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="Log_In">LOG IN</string>
+    <string name="Update">update</string>
+    <string name="teams">Teams</string>
+    <string name="state_category">state_Category</string>
+    <string name="type_a_name">Type a name</string>
+    <string name="edit_task" />
+    <string name="Edit_task">edit_task</string>
+    <string name="description">Description</string>
+    <string name="TASK_NAME">task\n-name</string>
+    <string name="task_name">TASK_NAME</string>
 </resources>

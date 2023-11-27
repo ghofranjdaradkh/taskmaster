@@ -39,7 +39,7 @@ public final class Task implements Model {
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="TaskState") TaskState state;
   private final @ModelField(targetType="AWSDate") Temporal.Date dueDate;
-  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId",  type = Team.class) Team teamPerson;
+  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team teamPerson;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
