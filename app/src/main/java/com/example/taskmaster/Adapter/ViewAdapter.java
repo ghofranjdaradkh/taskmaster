@@ -59,7 +59,7 @@ Context callingActivity;
         View listViewHolder = holder.itemView;
         //make it clickable
         listViewHolder.setOnClickListener(view -> {
-            Intent goToTaskDetailsIntent = new Intent(callingActivity, TaskDetailPage.class);
+            Intent goToTaskDetailsIntent = new Intent(callingActivity, EditTask.class);
             goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
             goToTaskDetailsIntent.putExtra("taskBody", taskBody);
             goToTaskDetailsIntent.putExtra("taskState", taskState.toString());

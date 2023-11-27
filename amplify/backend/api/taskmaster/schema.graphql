@@ -11,8 +11,8 @@ type Task @model @auth(rules:[{allow:public}]) {
   id: ID!
   name: String!
   description: String
+  taskImageS3Key: String
   state: TaskState
-  dueDate: AWSDate
   teamId: ID! @index(name: "byteam", sortKeyFields: ["name"])
   teamPerson: Team @belongsTo(fields: ["teamId"])
 
@@ -33,4 +33,5 @@ type Team @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String
   tasks: [Task] @hasMany(indexName: "byteam", fields: ["id"])
+
 }

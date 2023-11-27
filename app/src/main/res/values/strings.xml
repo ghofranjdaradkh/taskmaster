@@ -48,4 +48,5 @@
     <string name="description">Description</string>
     <string name="TASK_NAME">task\n-name</string>
     <string name="task_name">TASK_NAME</string>
+    <string name="image">TODO</string>
 </resources>

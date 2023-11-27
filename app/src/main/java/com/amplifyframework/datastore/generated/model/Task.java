@@ -1,7 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
-import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
 
 
 import java.util.List;
@@ -31,15 +31,15 @@ public final class Task implements Model {
   public static final QueryField ID = field("Task", "id");
   public static final QueryField NAME = field("Task", "name");
   public static final QueryField DESCRIPTION = field("Task", "description");
+  public static final QueryField TASK_IMAGE_S3_KEY = field("Task", "taskImageS3Key");
   public static final QueryField STATE = field("Task", "state");
-  public static final QueryField DUE_DATE = field("Task", "dueDate");
   public static final QueryField TEAM_PERSON = field("Task", "teamId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
+  private final @ModelField(targetType="String") String taskImageS3Key;
   private final @ModelField(targetType="TaskState") TaskState state;
-  private final @ModelField(targetType="AWSDate") Temporal.Date dueDate;
-  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team teamPerson;
+  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId",  type = Team.class) Team teamPerson;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -60,12 +60,12 @@ public final class Task implements Model {
       return description;
   }
   
-  public TaskState getState() {
-      return state;
+  public String getTaskImageS3Key() {
+      return taskImageS3Key;
   }
   
-  public Temporal.Date getDueDate() {
-      return dueDate;
+  public TaskState getState() {
+      return state;
   }
   
   public Team getTeamPerson() {
@@ -80,12 +80,12 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
+  private Task(String id, String name, String description, String taskImageS3Key, TaskState state, Team teamPerson) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.taskImageS3Key = taskImageS3Key;
     this.state = state;
-    this.dueDate = dueDate;
     this.teamPerson = teamPerson;
   }
   
@@ -100,8 +100,8 @@ public final class Task implements Model {
       return ObjectsCompat.equals(getId(), task.getId()) &&
               ObjectsCompat.equals(getName(), task.getName()) &&
               ObjectsCompat.equals(getDescription(), task.getDescription()) &&
+              ObjectsCompat.equals(getTaskImageS3Key(), task.getTaskImageS3Key()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
-              ObjectsCompat.equals(getDueDate(), task.getDueDate()) &&
               ObjectsCompat.equals(getTeamPerson(), task.getTeamPerson()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
@@ -114,8 +114,8 @@ public final class Task implements Model {
       .append(getId())
       .append(getName())
       .append(getDescription())
+      .append(getTaskImageS3Key())
       .append(getState())
-      .append(getDueDate())
       .append(getTeamPerson())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -130,8 +130,8 @@ public final class Task implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
+      .append("taskImageS3Key=" + String.valueOf(getTaskImageS3Key()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
-      .append("dueDate=" + String.valueOf(getDueDate()) + ", ")
       .append("teamPerson=" + String.valueOf(getTeamPerson()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -166,8 +166,8 @@ public final class Task implements Model {
     return new CopyOfBuilder(id,
       name,
       description,
+      taskImageS3Key,
       state,
-      dueDate,
       teamPerson);
   }
   public interface NameStep {
@@ -179,8 +179,8 @@ public final class Task implements Model {
     Task build();
     BuildStep id(String id);
     BuildStep description(String description);
+    BuildStep taskImageS3Key(String taskImageS3Key);
     BuildStep state(TaskState state);
-    BuildStep dueDate(Temporal.Date dueDate);
     BuildStep teamPerson(Team teamPerson);
   }
   
@@ -189,19 +189,19 @@ public final class Task implements Model {
     private String id;
     private String name;
     private String description;
+    private String taskImageS3Key;
     private TaskState state;
-    private Temporal.Date dueDate;
     private Team teamPerson;
     public Builder() {
       
     }
     
-    private Builder(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
+    private Builder(String id, String name, String description, String taskImageS3Key, TaskState state, Team teamPerson) {
       this.id = id;
       this.name = name;
       this.description = description;
+      this.taskImageS3Key = taskImageS3Key;
       this.state = state;
-      this.dueDate = dueDate;
       this.teamPerson = teamPerson;
     }
     
@@ -213,8 +213,8 @@ public final class Task implements Model {
           id,
           name,
           description,
+          taskImageS3Key,
           state,
-          dueDate,
           teamPerson);
     }
     
@@ -232,14 +232,14 @@ public final class Task implements Model {
     }
     
     @Override
-     public BuildStep state(TaskState state) {
-        this.state = state;
+     public BuildStep taskImageS3Key(String taskImageS3Key) {
+        this.taskImageS3Key = taskImageS3Key;
         return this;
     }
     
     @Override
-     public BuildStep dueDate(Temporal.Date dueDate) {
-        this.dueDate = dueDate;
+     public BuildStep state(TaskState state) {
+        this.state = state;
         return this;
     }
     
@@ -261,8 +261,8 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, TaskState state, Temporal.Date dueDate, Team teamPerson) {
-      super(id, name, description, state, dueDate, teamPerson);
+    private CopyOfBuilder(String id, String name, String description, String taskImageS3Key, TaskState state, Team teamPerson) {
+      super(id, name, description, taskImageS3Key, state, teamPerson);
       Objects.requireNonNull(name);
     }
     
@@ -277,13 +277,13 @@ public final class Task implements Model {
     }
     
     @Override
-     public CopyOfBuilder state(TaskState state) {
-      return (CopyOfBuilder) super.state(state);
+     public CopyOfBuilder taskImageS3Key(String taskImageS3Key) {
+      return (CopyOfBuilder) super.taskImageS3Key(taskImageS3Key);
     }
     
     @Override
-     public CopyOfBuilder dueDate(Temporal.Date dueDate) {
-      return (CopyOfBuilder) super.dueDate(dueDate);
+     public CopyOfBuilder state(TaskState state) {
+      return (CopyOfBuilder) super.state(state);
     }
     
     @Override
