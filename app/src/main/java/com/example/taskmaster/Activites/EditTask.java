@@ -50,7 +50,7 @@ public class EditTask  extends AppCompatActivity {
     private Spinner taskCategorySpinner = null;
     private Spinner teamNameSpinner = null;
 
-    ActivityResultLauncher<Intent> activityResultLauncher;
+//    ActivityResultLauncher<Intent> activityResultLauncher;
 
     private String s3ImageKey = "";
 
@@ -63,12 +63,12 @@ public class EditTask  extends AppCompatActivity {
         taskCompletableFuture = new CompletableFuture<>();
         teamFuture = new CompletableFuture<>();
 
-        activityResultLauncher = getImagePickingActivityResultLauncher();  // You MUST set this up in onCreate() in the lifecycle
+//        activityResultLauncher = getImagePickingActivityResultLauncher();  // You MUST set this up in onCreate() in the lifecycle
 
         setUpEditableUIElement();
         setUpSaveButton();
         setUpDeleteButton();
-        setUpAddImageButton();
+//        setUpAddImageButton();
         setUpDeleteImageButton();
         updateImageButtons();
     }
@@ -112,7 +112,7 @@ public class EditTask  extends AppCompatActivity {
             Log.e(TAG, "ExecutionException while getting task");
         }
 
-        titleEditText = ((EditText) findViewById(R.id.editTextName));
+        titleEditText = ((EditText) findViewById(R.id.editTaskNameEditText));
         titleEditText.setText(taskToEdit.getName());
         descriptionEditText = ((EditText) findViewById(R.id.editTextdescription));
         descriptionEditText.setText(taskToEdit.getDescription());
@@ -125,7 +125,7 @@ public class EditTask  extends AppCompatActivity {
                     new File(getApplication().getFilesDir(), s3ImageKey),
                     success ->
                     {
-                        ImageView taskImageView = findViewById(R.id.taskimageView);
+                        ImageView taskImageView = findViewById(R.id.addtaskimageView);
                         taskImageView.setImageBitmap(BitmapFactory.decodeFile(success.getFile().getPath()));
                     },
                     failure ->
@@ -170,7 +170,7 @@ public class EditTask  extends AppCompatActivity {
                 }
         );
 
-        taskCategorySpinner = (Spinner) findViewById(R.id.editStateCategorySpinner);
+        taskCategorySpinner = (Spinner) findViewById(R.id.editstateSpinner);
         taskCategorySpinner.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -189,7 +189,7 @@ public class EditTask  extends AppCompatActivity {
 
     private void setUpSaveButton()
     {
-        Button saveButton = (Button)findViewById(R.id.updateButton);
+        Button saveButton = (Button)findViewById(R.id.SaveButton);
         saveButton.setOnClickListener(v ->
         {
             saveTask(s3ImageKey);
@@ -288,7 +288,7 @@ public class EditTask  extends AppCompatActivity {
     }
 
     private void setUpDeleteButton(){
-        Button deleteButton = (Button) findViewById(R.id.deleteButton);
+        Button deleteButton = (Button) findViewById(R.id.DeleteButton);
         deleteButton.setOnClickListener(v ->{
             Amplify.API.mutate(
                     ModelMutation.delete(taskToEdit),
@@ -304,108 +304,108 @@ public class EditTask  extends AppCompatActivity {
     }
 
 
-    private void setUpAddImageButton()
-    {
-        Button addImageButton = (Button) findViewById(R.id.TaskAddImageButton);
-        addImageButton.setOnClickListener(b ->
-        {
-            launchImageSelectionIntent();
-        });
+//    private void setUpAddImageButton()
+//    {
+//        Button addImageButton = (Button) findViewById(R.id.addImageButton);
+//        addImageButton.setOnClickListener(b ->
+//        {
+//            launchImageSelectionIntent();
+//        });
+//
+//    }
+//
+//    private void launchImageSelectionIntent()
+//    {
+//        // Part 1: Launch activity to pick file
+//
+//        Intent imageFilePickingIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//        imageFilePickingIntent.setType("*/*");  // only allow one kind or category of file; if you don't have this, you get a very cryptic error about "No activity found to handle Intent"
+//        imageFilePickingIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/jpeg", "image/png"});
+//        // Below is simple version for testing
+//        //startActivity(imageFilePickingIntent);
+//
+//        // Part 2: Create an image picking activity result launcher
+//        activityResultLauncher.launch(imageFilePickingIntent);
+//
+//    }
 
-    }
+//    private ActivityResultLauncher<Intent> getImagePickingActivityResultLauncher()
+//    {
+//        // Part 2: Create an image picking activity result launcher
+//        ActivityResultLauncher<Intent> imagePickingActivityResultLauncher =
+//                registerForActivityResult(
+//                        new ActivityResultContracts.StartActivityForResult(),
+//                        new ActivityResultCallback<ActivityResult>()
+//                        {
+//                            @Override
+//                            public void onActivityResult(ActivityResult result)
+//                            {
+//                                Button addImageButton = findViewById(R.id.addImageButton);
+//                                if (result.getResultCode() == Activity.RESULT_OK)
+//                                {
+//                                    if (result.getData() != null)
+//                                    {
+//                                        Uri pickedImageFileUri = result.getData().getData();
+//                                        try
+//                                        {
+//                                            InputStream pickedImageInputStream = getContentResolver().openInputStream(pickedImageFileUri);
+//                                            String pickedImageFilename = getFileNameFromUri(pickedImageFileUri);
+//                                            Log.i(TAG, "Succeeded in getting input stream from file on phone! Filename is: " + pickedImageFilename);
+//                                            // Part 3: Use our InputStream to upload file to S3
+//                                            switchFromAddButtonToDeleteButton(addImageButton);
+//                                            uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename,pickedImageFileUri);
+//
+//                                        } catch (FileNotFoundException fnfe)
+//                                        {
+//                                            Log.e(TAG, "Could not get file from file picker! " + fnfe.getMessage(), fnfe);
+//                                        }
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    Log.e(TAG, "Activity result error in ActivityResultLauncher.onActivityResult");
+//                                }
+//                            }
+//                        }
+//                );
+//
+//        return imagePickingActivityResultLauncher;
+//    }
 
-    private void launchImageSelectionIntent()
-    {
-        // Part 1: Launch activity to pick file
-
-        Intent imageFilePickingIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        imageFilePickingIntent.setType("*/*");  // only allow one kind or category of file; if you don't have this, you get a very cryptic error about "No activity found to handle Intent"
-        imageFilePickingIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/jpeg", "image/png"});
-        // Below is simple version for testing
-        //startActivity(imageFilePickingIntent);
-
-        // Part 2: Create an image picking activity result launcher
-        activityResultLauncher.launch(imageFilePickingIntent);
-
-    }
-
-    private ActivityResultLauncher<Intent> getImagePickingActivityResultLauncher()
-    {
-        // Part 2: Create an image picking activity result launcher
-        ActivityResultLauncher<Intent> imagePickingActivityResultLauncher =
-                registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        new ActivityResultCallback<ActivityResult>()
-                        {
-                            @Override
-                            public void onActivityResult(ActivityResult result)
-                            {
-                                Button addImageButton = findViewById(R.id.TaskAddImageButton);
-                                if (result.getResultCode() == Activity.RESULT_OK)
-                                {
-                                    if (result.getData() != null)
-                                    {
-                                        Uri pickedImageFileUri = result.getData().getData();
-                                        try
-                                        {
-                                            InputStream pickedImageInputStream = getContentResolver().openInputStream(pickedImageFileUri);
-                                            String pickedImageFilename = getFileNameFromUri(pickedImageFileUri);
-                                            Log.i(TAG, "Succeeded in getting input stream from file on phone! Filename is: " + pickedImageFilename);
-                                            // Part 3: Use our InputStream to upload file to S3
-                                            switchFromAddButtonToDeleteButton(addImageButton);
-                                            uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename,pickedImageFileUri);
-
-                                        } catch (FileNotFoundException fnfe)
-                                        {
-                                            Log.e(TAG, "Could not get file from file picker! " + fnfe.getMessage(), fnfe);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Log.e(TAG, "Activity result error in ActivityResultLauncher.onActivityResult");
-                                }
-                            }
-                        }
-                );
-
-        return imagePickingActivityResultLauncher;
-    }
-
-    private void uploadInputStreamToS3(InputStream pickedImageInputStream, String pickedImageFilename,Uri pickedImageFileUri)
-    {
-        Amplify.Storage.uploadInputStream(
-                pickedImageFilename,  // S3 key
-                pickedImageInputStream,
-                success ->
-                {
-                    Log.i(TAG, "Succeeded in getting file uploaded to S3! Key is: " + success.getKey());
-                    // Part 4: Update/save our Product object to have an image key
-                    saveTask(success.getKey());
-                    updateImageButtons();
-                    ImageView productImageView = findViewById(R.id.taskimageView);
-                    InputStream pickedImageInputStreamCopy = null;  // need to make a copy because InputStreams cannot be reused!
-                    try
-                    {
-                        pickedImageInputStreamCopy = getContentResolver().openInputStream(pickedImageFileUri);
-                    }
-                    catch (FileNotFoundException fnfe)
-                    {
-                        Log.e(TAG, "Could not get file stream from URI! " + fnfe.getMessage(), fnfe);
-                    }
-                    productImageView.setImageBitmap(BitmapFactory.decodeStream(pickedImageInputStreamCopy));
-
-                },
-                failure ->
-                {
-                    Log.e(TAG, "Failure in uploading file to S3 with filename: " + pickedImageFilename + " with error: " + failure.getMessage());
-                }
-        );
-    }
+//    private void uploadInputStreamToS3(InputStream pickedImageInputStream, String pickedImageFilename,Uri pickedImageFileUri)
+//    {
+//        Amplify.Storage.uploadInputStream(
+//                pickedImageFilename,  // S3 key
+//                pickedImageInputStream,
+//                success ->
+//                {
+//                    Log.i(TAG, "Succeeded in getting file uploaded to S3! Key is: " + success.getKey());
+//                    // Part 4: Update/save our Product object to have an image key
+//                    saveTask(success.getKey());
+//                    updateImageButtons();
+//                    ImageView productImageView = findViewById(R.id.addtaskimageView);
+//                    InputStream pickedImageInputStreamCopy = null;  // need to make a copy because InputStreams cannot be reused!
+//                    try
+//                    {
+//                        pickedImageInputStreamCopy = getContentResolver().openInputStream(pickedImageFileUri);
+//                    }
+//                    catch (FileNotFoundException fnfe)
+//                    {
+//                        Log.e(TAG, "Could not get file stream from URI! " + fnfe.getMessage(), fnfe);
+//                    }
+//                    productImageView.setImageBitmap(BitmapFactory.decodeStream(pickedImageInputStreamCopy));
+//
+//                },
+//                failure ->
+//                {
+//                    Log.e(TAG, "Failure in uploading file to S3 with filename: " + pickedImageFilename + " with error: " + failure.getMessage());
+//                }
+//        );
+//    }
 
     private void setUpDeleteImageButton()
     {
-        Button deleteImageButton = (Button)findViewById(R.id.DeleteImageButton);
+        Button deleteImageButton = (Button)findViewById(R.id.dleteImage);
         String s3ImageKey = this.s3ImageKey;
         deleteImageButton.setOnClickListener(v ->
         {
@@ -421,7 +421,7 @@ public class EditTask  extends AppCompatActivity {
                         Log.e(TAG, "Failure in deleting file on S3 with key: " + s3ImageKey + " with error: " + failure.getMessage());
                     }
             );
-            ImageView productImageView = findViewById(R.id.taskimageView);
+            ImageView productImageView = findViewById(R.id.addtaskimageView);
             productImageView.setImageResource(android.R.color.transparent);
 
             saveTask("");
@@ -430,8 +430,8 @@ public class EditTask  extends AppCompatActivity {
     }
 
     private void updateImageButtons() {
-        Button addImageButton = findViewById(R.id.TaskAddImageButton);
-        Button deleteImageButton = findViewById(R.id.DeleteImageButton);
+        Button addImageButton = findViewById(R.id.addImageButton);
+        Button deleteImageButton = findViewById(R.id.dleteImage);
         runOnUiThread(() -> {
             if (s3ImageKey == null || s3ImageKey.isEmpty()) {
                 deleteImageButton.setVisibility(View.INVISIBLE);
@@ -444,38 +444,38 @@ public class EditTask  extends AppCompatActivity {
     }
 
     private void switchFromDeleteButtonToAddButton(Button deleteImageButton) {
-        Button addImageButton = findViewById(R.id.TaskAddImageButton);
+        Button addImageButton = findViewById(R.id.addImageButton);
         deleteImageButton.setVisibility(View.INVISIBLE);
         addImageButton.setVisibility(View.VISIBLE);
     }
 
     private void switchFromAddButtonToDeleteButton(Button addImageButton) {
-        Button deleteImageButton = findViewById(R.id.DeleteImageButton);
+        Button deleteImageButton = findViewById(R.id.dleteImage);
         deleteImageButton.setVisibility(View.VISIBLE);
         addImageButton.setVisibility(View.INVISIBLE);
     }
-    // Taken from https://stackoverflow.com/a/25005243/16889809
-    @SuppressLint("Range")
-    public String getFileNameFromUri(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
-    }
+//    // Taken from https://stackoverflow.com/a/25005243/16889809
+//    @SuppressLint("Range")
+//    public String getFileNameFromUri(Uri uri) {
+//        String result = null;
+//        if (uri.getScheme().equals("content")) {
+//            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+//            try {
+//                if (cursor != null && cursor.moveToFirst()) {
+//                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                }
+//            } finally {
+//                cursor.close();
+//            }
+//        }
+//        if (result == null) {
+//            result = uri.getPath();
+//            int cut = result.lastIndexOf('/');
+//            if (cut != -1) {
+//                result = result.substring(cut + 1);
+//            }
+//        }
+//        return result;
+//    }
 
 }

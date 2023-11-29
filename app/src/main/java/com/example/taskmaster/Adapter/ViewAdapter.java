@@ -1,5 +1,7 @@
 package com.example.taskmaster.Adapter;
 
+import static com.example.taskmaster.Activites.MainActivity.Main_ID_TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.TaskState;
+import com.amplifyframework.datastore.generated.model.Team;
+//import com.example.taskmaster.Activites.EditTask;
 import com.example.taskmaster.Activites.EditTask;
 import com.example.taskmaster.Activites.TaskDetailPage;
 import com.example.taskmaster.R;
@@ -59,10 +63,11 @@ Context callingActivity;
         View listViewHolder = holder.itemView;
         //make it clickable
         listViewHolder.setOnClickListener(view -> {
-            Intent goToTaskDetailsIntent = new Intent(callingActivity, EditTask.class);
-            goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
-            goToTaskDetailsIntent.putExtra("taskBody", taskBody);
-            goToTaskDetailsIntent.putExtra("taskState", taskState.toString());
+            Intent goToTaskDetailsIntent = new Intent(callingActivity, TaskDetailPage.class);
+            goToTaskDetailsIntent.putExtra(Main_ID_TAG, Task.ID.toString());
+//            goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
+//            goToTaskDetailsIntent.putExtra("taskBody", taskBody);
+//            goToTaskDetailsIntent.putExtra("taskState", taskState.toString());
             callingActivity.startActivity(goToTaskDetailsIntent);
 
 
