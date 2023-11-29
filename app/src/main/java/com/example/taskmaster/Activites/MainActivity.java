@@ -208,10 +208,11 @@ public class MainActivity extends AppCompatActivity {
         File emptyFile = new File(getApplicationContext().getFilesDir(), emptyFilename);
 
         try {
+            //createbufferWriter
             BufferedWriter emptyFileBufferedWriter= new BufferedWriter(new FileWriter(emptyFile));
 
             emptyFileBufferedWriter.append("Some text here from ghofran\nAnother lib from ghofran");
-
+//to make sure every thing is save use "close"
             emptyFileBufferedWriter.close();
         }catch (IOException ioe){
             Log.i(TAG, "could not write locally with filename: "+ emptyFilename);
@@ -256,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
         TeamName = ((TextView) findViewById(R.id.teamMain)).getText().toString();
 
-        setRecyclerViewList();
+//        setRecyclerViewList();
 
 
 
@@ -392,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
             );
         });
 
-}}
+    }}
 
 
 
