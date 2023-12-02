@@ -43,7 +43,7 @@ public class EditTask  extends AppCompatActivity {
 
     public static final String TAG= "editTaskActivity";
     private CompletableFuture<Task> taskCompletableFuture = null;
-    private CompletableFuture<List<Team>> teamFuture = null;
+    private CompletableFuture<List<Team>> teamFuture = new CompletableFuture<>();
     private Task taskToEdit= null;
     private EditText titleEditText;
     private EditText descriptionEditText;
@@ -64,60 +64,151 @@ public class EditTask  extends AppCompatActivity {
         teamFuture = new CompletableFuture<>();
 
 //        activityResultLauncher = getImagePickingActivityResultLauncher();  // You MUST set this up in onCreate() in the lifecycle
-
-        setUpEditableUIElement();
+//        setUpNonButtonUiElements();
+//        setUpEditableUIElement();
         setUpSaveButton();
         setUpDeleteButton();
 //        setUpAddImageButton();
-        setUpDeleteImageButton();
-        updateImageButtons();
+//        setUpDeleteImageButton();
+//        updateImageButtons();
     }
 
-    private void setUpEditableUIElement() {
-        Intent callingIntent = getIntent();
-        String taskId = null;
+//    private void setUpEditableUIElement() {
+//        Intent callingIntent = getIntent();
+//        String taskId = null;
+//
+//        if(callingIntent != null){
+//            taskId = callingIntent.getStringExtra(MainActivity.Main_ID_TAG);
+//        }
+//
+//        String taskId2 = taskId;
+//
+//        Amplify.API.query(
+//                ModelQuery.list(Task.class),
+//                success ->
+//                {
+//                    Log.i(TAG,"Read Tasks Successfully");
+//
+//                    for (Task databaseTask: success.getData()){
+//                        if(databaseTask.getId().equals(taskId2)){
+//                            taskCompletableFuture.complete(databaseTask);
+//                        }
+//                    }
+//
+//                    runOnUiThread(() ->
+//                    {
+//                        //Update UI element
+//                    });
+//                },
+//                failure -> Log.i(TAG, "Did not read Tasks successfully")
+//        );
+//
+//        try {
+//            taskToEdit = taskCompletableFuture.get();
+//        }catch (InterruptedException ie){
+//            Log.e(TAG, "InterruptedException while getting task");
+//            Thread.currentThread().interrupt();
+//        }catch (ExecutionException ee){
+//            Log.e(TAG, "ExecutionException while getting task");
+//        }
+//
+//        titleEditText = ((EditText) findViewById(R.id.editTaskNameEditText));
+//        titleEditText.setText(taskToEdit.getName());
+//        descriptionEditText = ((EditText) findViewById(R.id.editTextdescription));
+//        descriptionEditText.setText(taskToEdit.getDescription());
+//
+//        s3ImageKey = taskToEdit.getTaskImageS3Key();
+//        if (s3ImageKey != null && !s3ImageKey.isEmpty())
+//        {
+//            Amplify.Storage.downloadFile(
+//                    s3ImageKey,
+//                    new File(getApplication().getFilesDir(), s3ImageKey),
+//                    success ->
+//                    {
+//                        ImageView taskImageView = findViewById(R.id.addtaskimageView);
+//                        taskImageView.setImageBitmap(BitmapFactory.decodeFile(success.getFile().getPath()));
+//                    },
+//                    failure ->
+//                    {
+//                        Log.e(TAG, "Unable to get image from S3 for the Task for S3 key: " + s3ImageKey + " for reason: " + failure.getMessage());
+//                    }
+//            );
+//        }
+//        setUpSpinners();
+//    }
 
-        if(callingIntent != null){
-            taskId = callingIntent.getStringExtra(MainActivity.Main_ID_TAG);
+
+
+
+
+
+
+
+    private void setUpNonButtonUiElements()
+    {
+        Intent callingIntent = getIntent();
+        String productId = null;
+        if (callingIntent != null)
+        {
+            productId = callingIntent.getStringExtra(MainActivity.Main_ID_TAG);
         }
 
-        String taskId2 = taskId;
-
+        String productId2 = productId;  // ugly hack to fix lambda processing
         Amplify.API.query(
                 ModelQuery.list(Task.class),
                 success ->
                 {
-                    Log.i(TAG,"Read Tasks Successfully");
+                    Log.i(TAG, "Read products successfully!");
 
-                    for (Task databaseTask: success.getData()){
-                        if(databaseTask.getId().equals(taskId2)){
-                            taskCompletableFuture.complete(databaseTask);
+                    for (Task databaseProduct : success.getData())
+                    {
+                        if (databaseProduct.getId().equals(productId2))
+                        {
+                            taskCompletableFuture.complete(databaseProduct);
                         }
                     }
 
                     runOnUiThread(() ->
                     {
-                        //Update UI element
+                        // Update UI elements
                     });
                 },
-                failure -> Log.i(TAG, "Did not read Tasks successfully")
+                failure -> Log.i(TAG, "Did not read products successfully!")
         );
 
-        try {
+        try
+        {
             taskToEdit = taskCompletableFuture.get();
-        }catch (InterruptedException ie){
-            Log.e(TAG, "InterruptedException while getting task");
+        }
+        catch (InterruptedException ie)
+        {
+            Log.e(TAG, "InterruptedException while getting product");
             Thread.currentThread().interrupt();
-        }catch (ExecutionException ee){
-            Log.e(TAG, "ExecutionException while getting task");
+        }
+        catch (ExecutionException ee)
+        {
+            Log.e(TAG, "ExecutionException while getting product");
         }
 
-        titleEditText = ((EditText) findViewById(R.id.editTaskNameEditText));
-        titleEditText.setText(taskToEdit.getName());
-        descriptionEditText = ((EditText) findViewById(R.id.editTextdescription));
-        descriptionEditText.setText(taskToEdit.getDescription());
+        if (productId != null)
+        {
+            titleEditText = ((EditText) findViewById(R.id.editTaskNameEditText));
+            titleEditText.setText(taskToEdit.getName());
+            descriptionEditText = ((EditText) findViewById(R.id.editDescriptionEditText));
+            descriptionEditText.setText(taskToEdit.getDescription());
 
-        s3ImageKey = taskToEdit.getTaskImageS3Key();
+            s3ImageKey = taskToEdit.getTaskImageS3Key();
+
+            // Example of launching an intent from this app
+            Intent callAnotherAppIntent = new Intent();
+            callAnotherAppIntent.setType("text/plain");
+            callAnotherAppIntent.setAction(Intent.ACTION_SEND);
+            callAnotherAppIntent.putExtra(Intent.EXTRA_TEXT, taskToEdit.getName());
+            startActivity(callAnotherAppIntent);
+
+        }
+//        updateImageButtons();
+
         if (s3ImageKey != null && !s3ImageKey.isEmpty())
         {
             Amplify.Storage.downloadFile(
@@ -125,57 +216,67 @@ public class EditTask  extends AppCompatActivity {
                     new File(getApplication().getFilesDir(), s3ImageKey),
                     success ->
                     {
-                        ImageView taskImageView = findViewById(R.id.addtaskimageView);
-                        taskImageView.setImageBitmap(BitmapFactory.decodeFile(success.getFile().getPath()));
+                        ImageView productImageView = findViewById(R.id.addtaskimageView);
+                        productImageView.setImageBitmap(BitmapFactory.decodeFile(success.getFile().getPath()));
                     },
                     failure ->
                     {
-                        Log.e(TAG, "Unable to get image from S3 for the Task for S3 key: " + s3ImageKey + " for reason: " + failure.getMessage());
+                        Log.e(TAG, "Unable to get image from S3 for the product for S3 key: " + s3ImageKey + " for reason: " + failure.getMessage());
                     }
             );
         }
-        setUpSpinners();
+
+        if (productId != null)
+        {
+            setUpSpinner();
+        }
     }
 
-    private void setUpSpinners()
-    {
-        teamNameSpinner = (Spinner) findViewById(R.id.editTeamSpinner);
 
+
+
+
+
+
+
+
+
+    public void setUpSpinner() {
+
+        teamNameSpinner = findViewById(R.id.addteam);
         Amplify.API.query(
                 ModelQuery.list(Team.class),
-                success ->
-                {
-                    Log.i(TAG, "Read Team Name successfully!");
-                    ArrayList<String> TeamNames = new ArrayList<>();
+                success -> {
+                    Log.i(TAG, "Read Team Successfully");
+                    ArrayList<String> teamName = new ArrayList<>();
                     ArrayList<Team> teams = new ArrayList<>();
-                    for (Team team : success.getData())
-                    {
+                    for (Team team : success.getData()) {
                         teams.add(team);
-                        TeamNames.add(team.getName());
+                        teamName.add(team.getName());
                     }
                     teamFuture.complete(teams);
-
-                    runOnUiThread(() ->
-                    {
+                    runOnUiThread(() -> {
                         teamNameSpinner.setAdapter(new ArrayAdapter<>(
                                 this,
                                 android.R.layout.simple_spinner_item,
-                                TeamNames));
-                        teamNameSpinner.setSelection(getSpinnerIndex(teamNameSpinner, taskToEdit.getTeamPerson().getName()));
+                                teamName
+                        ));
                     });
+
                 },
                 failure -> {
                     teamFuture.complete(null);
-                    Log.i(TAG, "Did not read Team Name successfully!");
+                    Log.e(TAG, "Failed to read teams successfully: " + failure.toString());
                 }
         );
 
-        taskCategorySpinner = (Spinner) findViewById(R.id.editstateSpinner);
+
+        taskCategorySpinner = (Spinner) findViewById(R.id.spinnerlsitforState);
         taskCategorySpinner.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
-                TaskState.values()));
-        taskCategorySpinner.setSelection(getSpinnerIndex(taskCategorySpinner, taskToEdit.getState().toString()));
+                TaskState.values()
+        ));
     }
 
     private int getSpinnerIndex(Spinner spinner, String stringValueToCheck){
@@ -403,57 +504,57 @@ public class EditTask  extends AppCompatActivity {
 //        );
 //    }
 
-    private void setUpDeleteImageButton()
-    {
-        Button deleteImageButton = (Button)findViewById(R.id.dleteImage);
-        String s3ImageKey = this.s3ImageKey;
-        deleteImageButton.setOnClickListener(v ->
-        {
-            Amplify.Storage.remove(
-                    s3ImageKey,
-                    success ->
-                    {
-                        Log.i(TAG, "Succeeded in deleting file on S3! Key is: " + success.getKey());
-
-                    },
-                    failure ->
-                    {
-                        Log.e(TAG, "Failure in deleting file on S3 with key: " + s3ImageKey + " with error: " + failure.getMessage());
-                    }
-            );
-            ImageView productImageView = findViewById(R.id.addtaskimageView);
-            productImageView.setImageResource(android.R.color.transparent);
-
-            saveTask("");
-            switchFromDeleteButtonToAddButton(deleteImageButton);
-        });
-    }
-
-    private void updateImageButtons() {
-        Button addImageButton = findViewById(R.id.addImageButton);
-        Button deleteImageButton = findViewById(R.id.dleteImage);
-        runOnUiThread(() -> {
-            if (s3ImageKey == null || s3ImageKey.isEmpty()) {
-                deleteImageButton.setVisibility(View.INVISIBLE);
-                addImageButton.setVisibility(View.VISIBLE);
-            } else {
-                deleteImageButton.setVisibility(View.VISIBLE);
-                addImageButton.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
-
-    private void switchFromDeleteButtonToAddButton(Button deleteImageButton) {
-        Button addImageButton = findViewById(R.id.addImageButton);
-        deleteImageButton.setVisibility(View.INVISIBLE);
-        addImageButton.setVisibility(View.VISIBLE);
-    }
-
-    private void switchFromAddButtonToDeleteButton(Button addImageButton) {
-        Button deleteImageButton = findViewById(R.id.dleteImage);
-        deleteImageButton.setVisibility(View.VISIBLE);
-        addImageButton.setVisibility(View.INVISIBLE);
-    }
+//    private void setUpDeleteImageButton()
+//    {
+//        Button deleteImageButton = (Button)findViewById(R.id.dleteImage);
+//        String s3ImageKey = this.s3ImageKey;
+//        deleteImageButton.setOnClickListener(v ->
+//        {
+//            Amplify.Storage.remove(
+//                    s3ImageKey,
+//                    success ->
+//                    {
+//                        Log.i(TAG, "Succeeded in deleting file on S3! Key is: " + success.getKey());
+//
+//                    },
+//                    failure ->
+//                    {
+//                        Log.e(TAG, "Failure in deleting file on S3 with key: " + s3ImageKey + " with error: " + failure.getMessage());
+//                    }
+//            );
+//            ImageView productImageView = findViewById(R.id.addtaskimageView);
+//            productImageView.setImageResource(android.R.color.transparent);
+//
+//            saveTask("");
+//            switchFromDeleteButtonToAddButton(deleteImageButton);
+//        });
+//    }
+//
+//    private void updateImageButtons() {
+//        Button addImageButton = findViewById(R.id.addImageButton);
+//        Button deleteImageButton = findViewById(R.id.dleteImage);
+//        runOnUiThread(() -> {
+//            if (s3ImageKey == null || s3ImageKey.isEmpty()) {
+//                deleteImageButton.setVisibility(View.INVISIBLE);
+//                addImageButton.setVisibility(View.VISIBLE);
+//            } else {
+//                deleteImageButton.setVisibility(View.VISIBLE);
+//                addImageButton.setVisibility(View.INVISIBLE);
+//            }
+//        });
+//    }
+//
+//    private void switchFromDeleteButtonToAddButton(Button deleteImageButton) {
+//        Button addImageButton = findViewById(R.id.addImageButton);
+//        deleteImageButton.setVisibility(View.INVISIBLE);
+//        addImageButton.setVisibility(View.VISIBLE);
+//    }
+//
+//    private void switchFromAddButtonToDeleteButton(Button addImageButton) {
+//        Button deleteImageButton = findViewById(R.id.dleteImage);
+//        deleteImageButton.setVisibility(View.VISIBLE);
+//        addImageButton.setVisibility(View.INVISIBLE);
+//    }
 //    // Taken from https://stackoverflow.com/a/25005243/16889809
 //    @SuppressLint("Range")
 //    public String getFileNameFromUri(Uri uri) {

@@ -51,6 +51,8 @@ mutation CreateTask(
     name
     description
     taskImageS3Key
+    taskLatitude
+    taskLongitude
     state
     teamId
     teamPerson {
@@ -75,6 +77,8 @@ mutation UpdateTask(
     name
     description
     taskImageS3Key
+    taskLatitude
+    taskLongitude
     state
     teamId
     teamPerson {
@@ -99,6 +103,8 @@ mutation DeleteTask(
     name
     description
     taskImageS3Key
+    taskLatitude
+    taskLongitude
     state
     teamId
     teamPerson {

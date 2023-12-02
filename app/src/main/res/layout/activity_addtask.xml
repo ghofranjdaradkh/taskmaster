@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addactivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activites.ADDTASK"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/addactivity"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/material_dynamic_neutral90"
-    >
+    tools:context=".Activites.ADDTASK">
 
 
     <TextView
@@ -21,7 +23,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="114dp" />
+        tools:layout_editor_absoluteY="111dp" />
 
     <EditText
         android:id="@+id/taskTitle"
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
+        android:minHeight="48dp"
         android:text="My Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +53,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Task Description"
+        android:text="@string/task_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.443"
@@ -63,6 +66,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
+        android:minHeight="48dp"
         android:text="Do Something"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,8 +77,8 @@
     <Button
         android:id="@+id/submitButton"
         android:layout_width="141dp"
-        android:layout_height="41dp"
-        android:text="ADD TASK"
+        android:layout_height="48dp"
+        android:text="@string/add_Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.834"
@@ -85,7 +89,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Task:"
+        android:text="@string/total_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.907"
@@ -131,7 +135,7 @@
     <Spinner
         android:id="@+id/spinnerlsitforState"
         android:layout_width="352dp"
-        android:layout_height="30dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="252dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,7 +157,7 @@
     <Spinner
         android:id="@+id/addteam"
         android:layout_width="345dp"
-        android:layout_height="35dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="164dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -172,14 +176,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskTitle" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="TextView"
+    <ImageView
+        android:id="@+id/newimageView"
+        android:layout_width="153dp"
+        android:layout_height="110dp"
+        android:contentDescription="@string/todo"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.219"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

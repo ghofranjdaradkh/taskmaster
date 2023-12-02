@@ -1,5 +1,7 @@
 package com.example.taskmaster.Activites;
 
+import static com.example.taskmaster.Activites.MainActivity.Main_ID_TAG;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,14 +22,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TaskDetailPage extends AppCompatActivity {
     public static final String TAG= "TaskDetailsActivity";
+    private String s3ImageKey = "";
 
 //lunch activity and take the result
     ActivityResultLauncher<Intent> activityResultLauncher;
@@ -37,6 +47,9 @@ public class TaskDetailPage extends AppCompatActivity {
         setContentView(R.layout.activity_task_detail_page);
         activityResultLauncher = getImagePickingActivityResultLauncher();
         setUpAddImageButton();
+        setUpDeleteImageButton();
+        setUpSaveButton();
+
 
     }
 
@@ -141,7 +154,7 @@ public class TaskDetailPage extends AppCompatActivity {
                                             Log.i(TAG, "Succeeded in getting input stream from file on phone! Filename is: " + pickedImageFilename);
                                             // Part 3: Use our InputStream to upload file to S3
 //                                            switchFromAddButtonToDeleteButton(addImageButton);
-//                                            uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename,pickedImageFileUri);
+                                            uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename,pickedImageFileUri);
 
                                         } catch (FileNotFoundException fnfe)
                                         {
@@ -164,15 +177,15 @@ public class TaskDetailPage extends AppCompatActivity {
     private void uploadInputStreamToS3(InputStream pickedImageInputStream, String pickedImageFilename,Uri pickedImageFileUri)
     {
         Amplify.Storage.uploadInputStream(
-                pickedImageFilename,  // S3 key
+                pickedImageFilename,
                 pickedImageInputStream,
                 success ->
                 {
                     Log.i(TAG, "Succeeded in getting file uploaded to S3! Key is: " + success.getKey());
                     // Part 4: Update/save our Product object to have an image key
-//                    saveTask(success.getKey());
+                    saveTask(success.getKey());
 //                    updateImageButtons();
-                    ImageView productImageView = findViewById(R.id.addtaskimageView);
+                    ImageView productImageView = findViewById(R.id.addtaskimageView2);
                     InputStream pickedImageInputStreamCopy = null;  // need to make a copy because InputStreams cannot be reused!
                     try
                     {
@@ -194,6 +207,103 @@ public class TaskDetailPage extends AppCompatActivity {
 
 
 
+    private void setUpSaveButton()
+    {
+        Button saveButton = (Button)findViewById(R.id.Savebutton2);
+        saveButton.setOnClickListener(v ->
+        {
+            saveTask(s3ImageKey);
+        });
+    }
+
+    private void saveTask(String imageS3Key) {
+        Amplify.API.query(
+                ModelQuery.get(Task.class, Main_ID_TAG),
+                response -> {
+                    Task existingTask = response.getData();
+
+                    if (existingTask != null) {
+
+                        String existingTaskId = existingTask.getId();
+                       String nameTask=existingTask.getName();
+                        // Create a new task with the updated information
+                        Task taskToSave = Task.builder()
+                                .name(nameTask)
+                                .id(existingTaskId)
+                                .taskImageS3Key(imageS3Key)
+                                .build();
+
+                        // Perform the update mutation
+                        Amplify.API.mutate(
+                                ModelMutation.update(taskToSave),
+                                successResponse -> {
+                                    Log.i(TAG, "EditTaskActivity.onCreate(): edited a Task successfully");
+                                    Snackbar.make(findViewById(R.id.editTaskAcivity), "Task saved!", Snackbar.LENGTH_SHORT).show();
+                                },
+                                failureResponse -> Log.i(TAG, "EditTaskActivity.onCreate(): failed with this response: " + failureResponse)
+                        );
+                    } else {
+                        // Handle the case where the task was not found
+                        Log.e(TAG, "Task not found");
+                    }
+                },
+                error -> Log.e(TAG, "Error fetching Task: " + error)
+        );
+
+    }
+
+
+    private void setUpDeleteImageButton()
+    {
+        Button deleteImageButton = (Button)findViewById(R.id.deleteImage2);
+        String s3ImageKey = this.s3ImageKey;
+        deleteImageButton.setOnClickListener(v ->
+        {
+            Amplify.Storage.remove(
+                    s3ImageKey,
+                    success ->
+                    {
+                        Log.i(TAG, "Succeeded in deleting file on S3! Key is: " + success.getKey());
+
+                    },
+                    failure ->
+                    {
+                        Log.e(TAG, "Failure in deleting file on S3 with key: " + s3ImageKey + " with error: " + failure.getMessage());
+                    }
+            );
+            ImageView productImageView = findViewById(R.id.addtaskimageView2);
+            productImageView.setImageResource(android.R.color.transparent);
+
+            saveTask("");
+            switchFromDeleteButtonToAddButton(deleteImageButton);
+        });
+    }
+
+    private void updateImageButtons() {
+        Button addImageButton = findViewById(R.id.addImageButton2);
+        Button deleteImageButton = findViewById(R.id.deleteImage2);
+        runOnUiThread(() -> {
+            if (s3ImageKey == null || s3ImageKey.isEmpty()) {
+                deleteImageButton.setVisibility(View.INVISIBLE);
+                addImageButton.setVisibility(View.VISIBLE);
+            } else {
+                deleteImageButton.setVisibility(View.VISIBLE);
+                addImageButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void switchFromDeleteButtonToAddButton(Button deleteImageButton) {
+        Button addImageButton = findViewById(R.id.addImageButton2);
+        deleteImageButton.setVisibility(View.INVISIBLE);
+        addImageButton.setVisibility(View.VISIBLE);
+    }
+
+    private void switchFromAddButtonToDeleteButton(Button addImageButton) {
+        Button deleteImageButton = findViewById(R.id.deleteImage2);
+        deleteImageButton.setVisibility(View.VISIBLE);
+        addImageButton.setVisibility(View.INVISIBLE);
+    }
 
     // Taken from https://stackoverflow.com/a/25005243/16889809
     //this code from the stackoverflow to extract the content itself from input string
