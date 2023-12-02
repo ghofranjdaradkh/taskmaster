@@ -106,23 +106,26 @@
         android:id="@+id/SaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginBottom="112dp"
         android:text="save"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.337"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/DeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginBottom="112dp"
         android:text="Delete TASK"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toEndOf="@+id/SaveButton"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="522dp" />
+        app:layout_constraintTop_toBottomOf="@+id/dleteImage"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/addtaskimageView"
@@ -130,36 +133,34 @@
         android:layout_height="119dp"
         app:layout_constraintBottom_toTopOf="@+id/DeleteButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.874"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTeamSpinner"
-        app:layout_constraintVertical_bias="0.508"
+        app:layout_constraintVertical_bias="0.366"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/addImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="56dp"
+
+        android:layout_marginBottom="44dp"
         android:text="Add Image"
-        app:layout_constraintBottom_toTopOf="@+id/SaveButton"
-        app:layout_constraintEnd_toStartOf="@+id/addtaskimageView"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintBottom_toTopOf="@+id/dleteImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTeamSpinner"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/dleteImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="Delete Image"
         app:layout_constraintBottom_toTopOf="@+id/SaveButton"
-        app:layout_constraintEnd_toStartOf="@+id/addtaskimageView"
-        app:layout_constraintHorizontal_bias="0.317"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addImageButton"
-        app:layout_constraintVertical_bias="0.303" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

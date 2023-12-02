@@ -56,154 +56,8 @@ public class MainActivity extends AppCompatActivity {
         init();
         setRecyclerViewList();
         setUpLoginAndLogoutButton();
-//step 1
-//        Amplify.Auth.signUp("Ghofran_daradkh@hotmail.com","gh@12345",
-//                AuthSignUpOptions.builder()
-//                .userAttribute(AuthUserAttributeKey.email(),"Ghofran_daradkh@hotmail.com")
-//                .userAttribute(AuthUserAttributeKey.nickname(),"ghofran").build(),
-//                good ->
-//                {
-//                    Log.i(TAG, "Signup succeeded: "+ good.toString());
-//                },
-//                bad ->
-//                {
-//                    Log.i(TAG, "Signup failed with username: "+ "Ghofran_daradkh@hotmail.com"+ " with this message: "+ bad.toString());
-//                }
-//        );
+        setupButton();
 
-
-//step 2
-//        Amplify.Auth.confirmSignUp("Ghofran_daradkh@hotmail.com",
-//                "049274",
-//                success ->
-//                {
-//                    Log.i(TAG, "verification succeeded: " + success.toString());
-//
-//                },
-//                failure ->
-//                {
-//                    Log.i(TAG, "verification failed: " + failure.toString());
-//                }
-//        );
-        //signin
-         /*Amplify.Auth.signIn("Ghofran_daradkh@hotmail.com",
-                "gh@12345",
-                success ->
-                {
-                    Log.i(TAG, "Login succeeded: "+success.toString());
-                },
-                failure ->
-                {
-                    Log.i(TAG, "Login failed: "+failure.toString());
-                }
-        );*/
-
-        //  log out from out system
-        /*Amplify.Auth.signOut(
-                () ->
-                {
-                    Log.i(TAG,"Logout succeeded");
-                },
-                failure ->
-                {
-                    Log.i(TAG, "Logout failed");
-                }
-        );*/
-
-
-        Button addTask = findViewById(R.id.ADDTASK);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(MainActivity.this, ADDTASK.class);
-                startActivity(intent1);
-            }
-        });
-
-        Button allTask = findViewById(R.id.ALLTASKS);
-        allTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent2 = new Intent(MainActivity.this, ALLTASKS.class);
-                startActivity(intent2);
-            }
-        });
-
-
-        Button taskButton1 = findViewById(R.id.buttonsub1);
-        String buttonTitle1 = taskButton1.getText().toString();
-        taskButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentsub1 = new Intent(MainActivity.this, TaskDetailPage.class);
-                intentsub1.putExtra("buttonTitle", buttonTitle1);
-                intentsub1.putExtra("description", "Lorem Ipsum Description Goes Here");
-                startActivity(intentsub1);
-            }
-        });
-
-        Button taskButton2 = findViewById(R.id.buttonsub2);
-        taskButton2.setOnClickListener(new View.OnClickListener() {
-            String buttonTitle2 = taskButton2.getText().toString();
-
-            @Override
-            public void onClick(View view) {
-                Intent intentsub2 = new Intent(MainActivity.this, TaskDetailPage.class);
-                intentsub2.putExtra("buttonTitle", buttonTitle2);
-                intentsub2.putExtra("description", "Lorem Ipsum Description Goes Here");
-                startActivity(intentsub2);
-
-            }
-        });
-
-        Button taskButton3 = findViewById(R.id.buttonsub3);
-        String buttonTitle3 = taskButton3.getText().toString();
-        taskButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentsub3 = new Intent(MainActivity.this, TaskDetailPage.class);
-                intentsub3.putExtra("buttonTitle", buttonTitle3);
-                intentsub3.putExtra("description", "Lorem Ipsum Description Goes Here");
-                startActivity(intentsub3);
-            }
-        });
-        Button setting = findViewById(R.id.settingID);
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentsetting = new Intent(MainActivity.this, SettingsPage.class);
-                startActivity(intentsetting);
-
-            }
-
-        });
-
-        // ================================================
-//        Team team1= new Team.Builder()
-//                .name("TEAM1").build();
-//
-//        Team team2= new Team.Builder()
-//                .name("TEAM2").build();
-//        Team team3= new Team.Builder()
-//                .name("TEAM3").build();
-//        Amplify.API.mutate(
-//                ModelMutation.create(team1),
-//                sucsess->Log.i(TAG,"Successfully team"),
-//                failure->Log.i(TAG,"failure team"+failure.getMessage())
-//        );
-//
-//        Amplify.API.mutate(
-//                ModelMutation.create(team2),
-//                sucsess->Log.i(TAG,"Successfully team"),
-//                failure->Log.i(TAG,"failure team" +failure.getMessage())
-//        );
-//        Amplify.API.mutate(
-//                ModelMutation.create(team3),
-//                sucsess->Log.i(TAG,"Successfully team"),
-//                failure->Log.i(TAG,"failure team"+failure.getMessage())
-//        );
-
-//================================================
         String emptyFilename= "emptyTestFileName";
         File emptyFile = new File(getApplicationContext().getFilesDir(), emptyFilename);
 
@@ -233,7 +87,32 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+// ================================================
+        Team team1= new Team.Builder()
+                .name("TEAM1").build();
 
+        Team team2= new Team.Builder()
+                .name("TEAM2").build();
+        Team team3= new Team.Builder()
+                .name("TEAM3").build();
+        Amplify.API.mutate(
+                ModelMutation.create(team1),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team"+failure.getMessage())
+        );
+
+        Amplify.API.mutate(
+                ModelMutation.create(team2),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team" +failure.getMessage())
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(team3),
+                sucsess->Log.i(TAG,"Successfully team"),
+                failure->Log.i(TAG,"failure team"+failure.getMessage())
+        );
+
+//========================================
 
     }
 
@@ -258,6 +137,27 @@ public class MainActivity extends AppCompatActivity {
         TeamName = ((TextView) findViewById(R.id.teamMain)).getText().toString();
 
 //        setRecyclerViewList();
+
+
+
+        Amplify.API.query(
+                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
+                ), success ->
+                {
+                    Log.i(TAG, "Read tasks recycleview successfully");
+                    taskList.clear();
+                    if (success.getData() != null) {
+                        for (Task databaseProduct : success.getData()) {
+                            taskList.add(databaseProduct);
+                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
+                        }
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
+                        Log.e(TAG, "Success response data is null");
+                    }
+                }, failure -> Log.i(TAG, "Did not read products successfully"));
+
 
 
 
@@ -297,23 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
         }
-//        Amplify.API.query(
-//                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
-//                ), success ->
-//                {
-//                    Log.i(TAG, "Read tasks successfully");
-//                    taskList.clear();
-//                    if (success.getData() != null) {
-//                        for (Task databaseProduct : success.getData()) {
-//                            taskList.add(databaseProduct);
-//                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
-//                        }
-//                        runOnUiThread(() -> {
-//                            adapter.notifyDataSetChanged();
-//                        });
-//                        Log.e(TAG, "Success response data is null");
-//                    }
-//                }, failure -> Log.i(TAG, "Did not read products successfully"));
+
     }
 
 
@@ -328,23 +212,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         Log.i("TAG", "setUpTaskRecyclerView1111: " + TeamName);
         // Read from DynamoDB
-        Amplify.API.query(
-                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
-                ), success ->
-                {
-                    Log.i(TAG, "Read tasks recycleview successfully");
-                    taskList.clear();
-                    if (success.getData() != null) {
-                        for (Task databaseProduct : success.getData()) {
-                            taskList.add(databaseProduct);
-                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
-                        }
-                        runOnUiThread(() -> {
-                            adapter.notifyDataSetChanged();
-                        });
-                        Log.e(TAG, "Success response data is null");
-                    }
-                }, failure -> Log.i(TAG, "Did not read products successfully"));
+//        Amplify.API.query(
+//                ModelQuery.list(Task.class//TASK.TEAM_PERSON.eq(TeamName)
+//                ), success ->
+//                {
+//                    Log.i(TAG, "Read tasks recycleview successfully");
+//                    taskList.clear();
+//                    if (success.getData() != null) {
+//                        for (Task databaseProduct : success.getData()) {
+//                            taskList.add(databaseProduct);
+//                            Log.d("TeamName", "setUpTaskRecyclerView() returned: " + databaseProduct.getName());
+//                        }
+//                        runOnUiThread(() -> {
+//                            adapter.notifyDataSetChanged();
+//                        });
+//                        Log.e(TAG, "Success response data is null");
+//                    }
+//                }, failure -> Log.i(TAG, "Did not read products successfully"));
 
 
         adapter = new ViewAdapter(taskList, this);
@@ -393,7 +277,80 @@ public class MainActivity extends AppCompatActivity {
             );
         });
 
-    }}
+    }
+
+public  void setupButton (){
+
+    Button addTask = findViewById(R.id.ADDTASK);
+    addTask.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent1 = new Intent(MainActivity.this, ADDTASK.class);
+            startActivity(intent1);
+        }
+    });
+
+    Button allTask = findViewById(R.id.ALLTASKS);
+    allTask.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent2 = new Intent(MainActivity.this, ALLTASKS.class);
+            startActivity(intent2);
+        }
+    });
+
+
+    Button taskButton1 = findViewById(R.id.buttonsub1);
+    String buttonTitle1 = taskButton1.getText().toString();
+    taskButton1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intentsub1 = new Intent(MainActivity.this, EditTask.class);
+            intentsub1.putExtra("buttonTitle", buttonTitle1);
+            intentsub1.putExtra("description", "Lorem Ipsum Description Goes Here");
+            startActivity(intentsub1);
+        }
+    });
+
+    Button taskButton2 = findViewById(R.id.buttonsub2);
+    taskButton2.setOnClickListener(new View.OnClickListener() {
+        String buttonTitle2 = taskButton2.getText().toString();
+
+        @Override
+        public void onClick(View view) {
+            Intent intentsub2 = new Intent(MainActivity.this, EditTask.class);
+            intentsub2.putExtra("buttonTitle", buttonTitle2);
+            intentsub2.putExtra("description", "Lorem Ipsum Description Goes Here");
+            startActivity(intentsub2);
+
+        }
+    });
+
+    Button taskButton3 = findViewById(R.id.buttonsub3);
+    String buttonTitle3 = taskButton3.getText().toString();
+    taskButton3.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intentsub3 = new Intent(MainActivity.this, EditTask.class);
+            intentsub3.putExtra("buttonTitle", buttonTitle3);
+            intentsub3.putExtra("description", "Lorem Ipsum Description Goes Here");
+            startActivity(intentsub3);
+        }
+    });
+    Button setting = findViewById(R.id.settingID);
+    setting.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intentsetting = new Intent(MainActivity.this, SettingsPage.class);
+            startActivity(intentsetting);
+
+        }
+
+    });
+}
+
+
+}
 
 
 

@@ -18,6 +18,7 @@ import com.amplifyframework.datastore.generated.model.TaskState;
 import com.amplifyframework.datastore.generated.model.Team;
 //import com.example.taskmaster.Activites.EditTask;
 import com.example.taskmaster.Activites.EditTask;
+//import com.example.taskmaster.Activites.TaskDetailPage;
 import com.example.taskmaster.Activites.TaskDetailPage;
 import com.example.taskmaster.R;
 
@@ -65,9 +66,9 @@ Context callingActivity;
         listViewHolder.setOnClickListener(view -> {
             Intent goToTaskDetailsIntent = new Intent(callingActivity, TaskDetailPage.class);
             goToTaskDetailsIntent.putExtra(Main_ID_TAG, Task.ID.toString());
-//            goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
-//            goToTaskDetailsIntent.putExtra("taskBody", taskBody);
-//            goToTaskDetailsIntent.putExtra("taskState", taskState.toString());
+            goToTaskDetailsIntent.putExtra("taskTitle", taskTitle);
+            goToTaskDetailsIntent.putExtra("taskBody", taskBody);
+            goToTaskDetailsIntent.putExtra("taskState", taskState.toString());
             callingActivity.startActivity(goToTaskDetailsIntent);
 
 
