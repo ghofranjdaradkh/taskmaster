@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 //import com.example.taskmaster.Adapter.ViewAdapter;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,29 +90,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 // ================================================
-        Team team1= new Team.Builder()
-                .name("TEAM1").build();
-
-        Team team2= new Team.Builder()
-                .name("TEAM2").build();
-        Team team3= new Team.Builder()
-                .name("TEAM3").build();
-        Amplify.API.mutate(
-                ModelMutation.create(team1),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team"+failure.getMessage())
-        );
-
-        Amplify.API.mutate(
-                ModelMutation.create(team2),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team" +failure.getMessage())
-        );
-        Amplify.API.mutate(
-                ModelMutation.create(team3),
-                sucsess->Log.i(TAG,"Successfully team"),
-                failure->Log.i(TAG,"failure team"+failure.getMessage())
-        );
+//        Team team1= new Team.Builder()
+//                .name("TEAM1").build();
+//
+//        Team team2= new Team.Builder()
+//                .name("TEAM2").build();
+//        Team team3= new Team.Builder()
+//                .name("TEAM3").build();
+//        Amplify.API.mutate(
+//                ModelMutation.create(team1),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team"+failure.getMessage())
+//        );
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(team2),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team" +failure.getMessage())
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(team3),
+//                sucsess->Log.i(TAG,"Successfully team"),
+//                failure->Log.i(TAG,"failure team"+failure.getMessage())
+//        );
 
 //========================================
 
@@ -241,6 +243,12 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         taskList = new ArrayList<>();
+
+        AnalyticsEvent event=AnalyticsEvent.builder()
+                .name("taskMaster")
+                .addProperty("trackingEnent","main activity opened").build();
+
+        Amplify.Analytics.recordEvent(event);
     }
 
 

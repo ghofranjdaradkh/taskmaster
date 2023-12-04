@@ -13,12 +13,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,14 +32,20 @@ import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TaskDetailPage extends AppCompatActivity {
     public static final String TAG= "TaskDetailsActivity";
     private String s3ImageKey = "";
+    private MediaPlayer mp = null;
 
 //lunch activity and take the result
     ActivityResultLauncher<Intent> activityResultLauncher;
@@ -46,10 +54,11 @@ public class TaskDetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail_page);
         activityResultLauncher = getImagePickingActivityResultLauncher();
+        mp =new MediaPlayer();
         setUpAddImageButton();
         setUpDeleteImageButton();
         setUpSaveButton();
-
+setUpSpeakButton();
 
     }
 
@@ -330,7 +339,39 @@ public class TaskDetailPage extends AppCompatActivity {
         return result;
     }
 
+    private void setUpSpeakButton(){
+        Button speakButton = (Button) findViewById(R.id.button2convert);
+        speakButton.setOnClickListener(b ->
+        {
+            String taskTitle = ((TextView) findViewById(R.id.titleTextView)).getText().toString();
 
+
+            Amplify.Predictions.convertTextToSpeech(
+                    taskTitle,
+                    result -> playAudio(result.getAudioData()),
+                    error -> Log.e(TAG,"conversion failed ", error)
+            );
+        });
+    }
+
+
+    private void playAudio(InputStream data) {
+        File mp3File = new File(getCacheDir(), "audio.mp3");
+
+        try (OutputStream out = new FileOutputStream(mp3File)) {
+            byte[] buffer = new byte[8 * 1_024];
+            int bytesRead;
+            while ((bytesRead = data.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            mp.reset();
+            mp.setOnPreparedListener(MediaPlayer::start);
+            mp.setDataSource(new FileInputStream(mp3File).getFD());
+            mp.prepareAsync();
+        } catch (IOException error) {
+            Log.e("MyAmplifyApp", "Error writing audio file", error);
+        }
+    }
 }
 
 

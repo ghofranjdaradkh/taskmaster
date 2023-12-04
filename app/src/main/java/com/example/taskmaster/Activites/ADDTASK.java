@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,9 +46,13 @@ import com.google.android.material.snackbar.Snackbar;
 //import com.example.taskmaster.dataBase.TaskdataBase;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,6 +70,7 @@ public class ADDTASK extends AppCompatActivity {
     FusedLocationProviderClient LocationProviderClient;
     static final int LOCATION_POLLING_INTERVAL = 5 * 1000;
     Geocoder geocoder=null;
+    private MediaPlayer mp = null;
 
 
     @Override
@@ -72,8 +78,11 @@ public class ADDTASK extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
         teamFuture = new CompletableFuture<>();
+        mp =new MediaPlayer();
         setUpSpinner();
         saveButton();
+        setUpSpeakButton();
+
 //Import Mainfest from the Android it self
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         LocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
@@ -181,30 +190,31 @@ public class ADDTASK extends AppCompatActivity {
             }
         }
 
-        if (callingIntent != null && callingIntent.getType() != null && callingIntent.getType().startsWith("image")) {
-            Uri incomingImageFileUri = callingIntent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if(callingIntent != null && callingIntent.getType() != null && callingIntent.getType().startsWith("image") ){
+            Uri incomingImageFileUri= callingIntent.getParcelableExtra(Intent.EXTRA_STREAM);
 
-            if (incomingImageFileUri != null) {
+            if (incomingImageFileUri != null){
                 InputStream incomingImageFileInputStream = null;
 
                 try {
                     incomingImageFileInputStream = getContentResolver().openInputStream(incomingImageFileUri);
 
-                    ImageView productImageView = findViewById(R.id.newimageView);
+                    ImageView taskImageView = findViewById(R.id.newimageView);
 
-                    if (productImageView != null) {
+                    if (taskImageView != null) {
 
-                        productImageView.setImageBitmap(BitmapFactory.decodeStream(incomingImageFileInputStream));
-                    } else {
+                        taskImageView.setImageBitmap(BitmapFactory.decodeStream(incomingImageFileInputStream));
+                    }else {
                         Log.e(TAG, "ImageView is null for some reasons");
                     }
-                } catch (FileNotFoundException fnfe) {
-                    Log.e(TAG, " Could not get file stream from the URI " + fnfe.getMessage(), fnfe);
+                }catch (FileNotFoundException fnfe){
+                    Log.e(TAG," Could not get file stream from the URI "+fnfe.getMessage(),fnfe);
                 }
             }
         }
 
     }
+
 
     private String cleanText(String text) {
         // Remove links
@@ -350,5 +360,35 @@ public class ADDTASK extends AppCompatActivity {
 
     }
 
+private void setUpSpeakButton(){
+    Button speakButton = (Button) findViewById(R.id.convertTxt);
+    speakButton.setOnClickListener(b ->
+    {
+        String taskTitle= ((EditText) findViewById(R.id.editTextdescription)).getText().toString();
 
+        Amplify.Predictions.convertTextToSpeech(
+                taskTitle,
+                result -> playAudio(result.getAudioData()),
+                error -> Log.e(TAG,"conversion failed ", error)
+        );
+    });
 }
+
+
+    private void playAudio(InputStream data) {
+        File mp3File = new File(getCacheDir(), "audio.mp3");
+
+        try (OutputStream out = new FileOutputStream(mp3File)) {
+            byte[] buffer = new byte[8 * 1_024];
+            int bytesRead;
+            while ((bytesRead = data.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            mp.reset();
+            mp.setOnPreparedListener(MediaPlayer::start);
+            mp.setDataSource(new FileInputStream(mp3File).getFD());
+            mp.prepareAsync();
+        } catch (IOException error) {
+            Log.e("MyAmplifyApp", "Error writing audio file", error);
+        }
+    }}
