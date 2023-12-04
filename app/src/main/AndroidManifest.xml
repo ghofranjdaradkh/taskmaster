@@ -41,8 +41,8 @@
         <intent-filter android:label="task Master">
         <action android:name="android.intent.action.SEND" />
         <category android:name ="android.content.Intent.category.DEFUALT"/>
-            <data android:mimeType="image/*"/>
         <data android:mimeType="text/plain"/>
+            <data android:mimeType="image/*"/>
 
         </intent-filter>
     </activity>

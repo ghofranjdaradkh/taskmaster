@@ -100,5 +100,17 @@ Add three Espresso tests
 
 ----------------------------------------------
 
+#  Upload s3 
+![Alt text](screenshots/pic1.PNG)
 
+------------------------------------
+# Auth activity :
+![Alt text](screenshots/pic3.PNG)
+![Alt text](screenshots/pic4.PNG)
+------------------------------------
+# Location :
+![Alt text](screenshots/pic2.PNG)
+-------------------------------------
+# Intent- filter
+![Alt text](screenshots/pic5.PNG)
 
